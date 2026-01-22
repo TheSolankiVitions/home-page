@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>The Solanki Visions Studio | Precision in Play</title>
+    
     <link rel="icon" type="image/png" href="favicom.png">
     
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
@@ -32,7 +33,7 @@
             overflow-x: hidden;
         }
 
-        h1, h2, h3, .logo {
+        h1, h2, h3, .logo-text {
             font-family: 'Orbitron', sans-serif;
             text-transform: uppercase;
             letter-spacing: 2px;
@@ -43,27 +44,38 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 20px 5%;
-            background: rgba(0, 0, 0, 0.9);
+            padding: 15px 5%;
+            background: rgba(0, 0, 0, 0.95);
             position: sticky;
             top: 0;
             z-index: 1000;
             border-bottom: 1px solid #333;
         }
 
-        .logo {
-            font-size: 1.2rem;
-            color: var(--neon-yellow);
+        .logo-container {
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 15px;
+            text-decoration: none;
+        }
+
+        .header-logo {
+            height: 45px; /* Adjust size to fit your yellow logo perfectly */
+            width: auto;
+            display: block;
+        }
+
+        .logo-text {
+            font-size: 1.1rem;
+            color: var(--neon-yellow);
+            font-weight: bold;
         }
 
         .nav-links a {
             color: white;
             text-decoration: none;
             margin-left: 25px;
-            font-size: 0.9rem;
+            font-size: 0.85rem;
             transition: color 0.3s;
         }
 
@@ -71,23 +83,23 @@
 
         .btn-apply {
             border: 2px solid var(--neon-cyan);
-            padding: 8px 20px;
+            padding: 8px 18px;
             color: var(--neon-cyan);
             text-decoration: none;
-            border-radius: 5px;
-            box-shadow: 0 0 10px rgba(0, 243, 255, 0.2);
+            border-radius: 4px;
             transition: 0.3s;
+            font-weight: bold;
         }
 
         .btn-apply:hover {
             background: var(--neon-cyan);
             color: black;
-            box-shadow: 0 0 20px var(--neon-cyan);
+            box-shadow: 0 0 15px var(--neon-cyan);
         }
 
-        /* --- Hero Section --- */
+        /* --- Hero --- */
         .hero {
-            height: 70vh;
+            height: 60vh;
             display: flex;
             flex-direction: column;
             justify-content: center;
@@ -98,7 +110,7 @@
         }
 
         .hero h1 {
-            font-size: 4rem;
+            font-size: 3.5rem;
             margin-bottom: 1rem;
             background: linear-gradient(to right, var(--neon-cyan), var(--neon-purple));
             -webkit-background-clip: text;
@@ -106,10 +118,10 @@
         }
 
         /* --- Sections --- */
-        section { padding: 80px 5%; border-bottom: 1px solid #1a1a1a; }
+        section { padding: 80px 5%; }
 
         .section-title {
-            font-size: 2.5rem;
+            font-size: 2.2rem;
             margin-bottom: 40px;
             border-left: 5px solid var(--neon-green);
             padding-left: 20px;
@@ -117,102 +129,104 @@
 
         .grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 30px;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 25px;
         }
 
         .card {
             background: var(--card-bg);
             padding: 30px;
-            border-radius: 10px;
-            border: 1px solid #333;
-            transition: 0.3s;
+            border-radius: 12px;
+            border: 1px solid #222;
+            transition: 0.4s;
         }
 
         .card:hover {
             border-color: var(--neon-purple);
-            box-shadow: 0 0 15px rgba(188, 19, 254, 0.1);
+            transform: translateY(-5px);
         }
 
         /* --- Game Project Section --- */
-        .game-showcase {
-            background: var(--card-bg);
+        .game-box {
+            background: #111;
             border: 1px solid var(--neon-green);
-            padding: 40px;
             border-radius: 15px;
+            overflow: hidden;
             display: flex;
             flex-wrap: wrap;
             align-items: center;
-            gap: 40px;
         }
 
-        .game-image {
+        .project-img {
             flex: 1;
             min-width: 300px;
-            border-radius: 10px;
-            border: 2px solid #333;
-            box-shadow: 0 0 20px rgba(57, 255, 20, 0.2);
+            max-width: 600px;
+            width: 100%;
+            height: auto;
+            display: block;
         }
 
-        .game-info { flex: 1; min-width: 300px; }
+        .project-details {
+            flex: 1;
+            padding: 40px;
+            min-width: 300px;
+        }
 
         .btn-play {
             display: inline-block;
             margin-top: 20px;
-            padding: 12px 30px;
+            padding: 12px 35px;
             background: var(--neon-green);
             color: black;
             text-decoration: none;
-            font-weight: bold;
-            border-radius: 5px;
-            transition: 0.3s;
+            font-weight: 900;
+            border-radius: 4px;
+            text-transform: uppercase;
         }
 
-        .btn-play:hover { box-shadow: 0 0 20px var(--neon-green); }
-
-        /* --- Social & Contact Buttons --- */
-        .social-btn {
+        /* --- Contact & Socials --- */
+        .contact-btn {
             display: inline-flex;
             align-items: center;
-            padding: 10px 20px;
-            margin: 10px 10px 10px 0;
-            border-radius: 5px;
+            padding: 12px 24px;
+            margin: 10px 10px 0 0;
+            border-radius: 4px;
             text-decoration: none;
             font-weight: bold;
-            font-size: 0.9rem;
             transition: 0.3s;
         }
 
-        .linkedin-btn { border: 1px solid #0077b5; color: #0077b5; }
-        .linkedin-btn:hover { background: #0077b5; color: white; }
+        .linkedin { border: 1px solid #0077b5; color: #0077b5; }
+        .linkedin:hover { background: #0077b5; color: white; }
+        
+        .youtube { border: 1px solid #ff0000; color: #ff0000; }
+        .youtube:hover { background: #ff0000; color: white; }
 
-        .youtube-btn { border: 1px solid #ff0000; color: #ff0000; }
-        .youtube-btn:hover { background: #ff0000; color: white; }
-
-        .gmail-btn { border: 1px solid var(--neon-cyan); color: var(--neon-cyan); }
-        .gmail-btn:hover { background: var(--neon-cyan); color: black; }
+        .gmail { border: 1px solid var(--neon-cyan); color: var(--neon-cyan); }
+        .gmail:hover { background: var(--neon-cyan); color: black; }
 
         /* --- Footer --- */
         footer {
-            background: #050505;
-            padding: 40px 5%;
-            text-align: center;
+            background: #000;
+            padding: 50px 5%;
             border-top: 1px solid #222;
+            text-align: center;
         }
 
-        .copyright { color: #555; font-size: 0.8rem; margin-top: 20px; }
-
         @media (max-width: 768px) {
-            .hero h1 { font-size: 2.5rem; }
+            .hero h1 { font-size: 2.2rem; }
+            nav { flex-direction: column; gap: 15px; }
+            .nav-links a { margin: 0 10px; }
         }
     </style>
 </head>
 <body>
 
     <nav>
-        <div class="logo">
-            <span>🎮</span> THE SOLANKI VISIONS
-        </div>
+        <a href="#" class="logo-container">
+            <img src="favicom.png" alt="Solanki Visions Logo" class="header-logo">
+            <span class="logo-text">THE SOLANKI VISIONS</span>
+        </a>
         <div class="nav-links">
             <a href="#about">About</a>
             <a href="#games">Games</a>
@@ -223,69 +237,66 @@
 
     <header class="hero">
         <h1>THE SOLANKI VISIONS STUDIO</h1>
-        <p style="color: var(--neon-cyan);">Founded January 2026 | Jodhpur, India</p>
+        <p style="color: var(--neon-cyan); font-weight: bold;">EST. JANUARY 2026 | JODHPUR, RAJASTHAN</p>
     </header>
 
     <section id="about">
         <h2 class="section-title">About the Studio</h2>
         <div class="grid">
             <div class="card">
-                <h3 style="color: var(--neon-purple);">Our Leadership</h3>
-                <p>Led by Founder & CEO <strong>Jankilal Solanki</strong>, we operate with clear leadership and professional discipline from day one.</p>
+                <h3 style="color: var(--neon-purple); margin-bottom:15px;">Leadership</h3>
+                <p>Founded by CEO <strong>Jankilal Solanki</strong>, we are a disciplined indie studio that operates with the structure and accountability of a major corporation.</p>
             </div>
             <div class="card">
-                <h3 style="color: var(--neon-cyan);">Our Expertise</h3>
-                <p>Specializing in <strong>Unity (2D/3D)</strong>, Android development, and AA-quality gameplay mechanics using C# and Blender.</p>
+                <h3 style="color: var(--neon-cyan); margin-bottom:15px;">Technology</h3>
+                <p>Our engine of choice is <strong>Unity</strong>. We utilize <strong>Blender, C#, and Photoshop</strong> alongside cutting-edge AI like Gemini and Claude to build 2D, 3D, and AA-quality games.</p>
             </div>
             <div class="card">
-                <h3 style="color: var(--neon-green);">Our Philosophy</h3>
-                <p>We prioritize long-term technical excellence over short-term hype, ensuring every project follows documented, professional workflows.</p>
+                <h3 style="color: var(--neon-green); margin-bottom:15px;">Commitment</h3>
+                <p>Beyond entertainment, we are committed to social impact—inspiring new developers and supporting the growth of indie game culture worldwide.</p>
             </div>
         </div>
     </section>
 
     <section id="games">
-        <h2 class="section-title" style="border-color: var(--neon-purple);">Featured Project</h2>
-        <div class="game-showcase">
-            <img src="Annotation 2026-01-22 230108.png" alt="Falling Boxes Project Screenshot" class="game-image">
+        <h2 class="section-title" style="border-color: var(--neon-purple);">Active Project</h2>
+        <div class="game-box">
+            <img src="Annotation 2026-01-22 230108.png" alt="Falling Boxes Project Screenshot" class="project-img">
             
-            <div class="game-info">
+            <div class="project-details">
                 <h3 style="color: var(--neon-cyan); font-size: 2rem;">FALLING BOXES</h3>
-                <p style="margin: 20px 0;">Experience smooth user interaction and performance-driven mechanics in our latest mobile-focused release.</p>
-                <a href="https://thejankilal.github.io/Falling-Boxes/" class="btn-play">Play Game Now</a>
+                <p style="margin: 20px 0; color: #bbb;">A mobile gaming experience focused on precision physics, performance-driven mechanics, and smooth user interaction.</p>
+                <a href="https://thejankilal.github.io/Falling-Boxes/" class="btn-play" target="_blank">Play Project</a>
             </div>
         </div>
     </section>
 
     <section id="contact">
-        <h2 class="section-title" style="border-color: var(--neon-cyan);">Get In Touch</h2>
+        <h2 class="section-title" style="border-color: var(--neon-cyan);">Connect With Us</h2>
         <div class="grid">
             <div class="card">
-                <h3>Headquarters</h3>
+                <h3>Global Headquarters</h3>
                 <p>Jodhpur, Rajasthan, India</p>
-                <div style="margin-top: 20px;">
-                    <a href="mailto:support@solankivisions.com" class="social-btn gmail-btn">Contact to Gmail</a>
-                </div>
+                <p style="margin-top: 15px; color: #888;">For inquiries and collaborations, reach out to us directly.</p>
             </div>
             <div class="card">
-                <h3>Social Media</h3>
-                <p>Follow our journey and stay updated on new releases.</p>
-                <div style="margin-top: 20px;">
-                    <a href="#" class="social-btn linkedin-btn">Follow on LinkedIn</a>
-                    <a href="#" class="social-btn youtube-btn">Subscribe on YouTube</a>
+                <h3>Official Channels</h3>
+                <div style="margin-top: 10px;">
+                    <a href="#" class="contact-btn linkedin">Follow on LinkedIn</a>
+                    <a href="#" class="contact-btn youtube">Subscribe on YouTube</a>
+                    <a href="mailto:support@solankivisions.com" class="contact-btn gmail">Contact to Gmail</a>
                 </div>
             </div>
         </div>
     </section>
 
     <footer>
-        <p style="color: var(--neon-yellow);">The Solanki Visions Studio</p>
-        <p style="font-size: 0.9rem; margin-top: 10px;">
-            <a href="https://thesolankivitions.github.io/Company-Terms-and-Policy/" style="color: #aaa; text-decoration: none;">Legal Terms & Policy</a>
+        <img src="favicom.png" alt="Small Logo" style="height: 30px; margin-bottom: 10px;">
+        <p style="color: var(--neon-yellow); font-size: 0.9rem;">The Solanki Visions Studio</p>
+        <p style="margin: 15px 0;">
+            <a href="https://thesolankivitions.github.io/Company-Terms-and-Policy/" style="color: #666; text-decoration: none; font-size: 0.8rem;">Terms & Conditions | Privacy Policy</a>
         </p>
-        <div class="copyright">
-            &copy; 2026 The Solanki Visions. All rights reserved.
-        </div>
+        <p style="color: #444; font-size: 0.75rem;">&copy; 2026 The Solanki Visions. All rights reserved.</p>
     </footer>
 
 </body>
