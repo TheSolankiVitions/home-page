@@ -12,7 +12,6 @@
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700;900&family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
     
     <link rel="icon" href="favicom.png" type="image/png">
-
     <meta property="og:title" content="The Solanki Visions Studio">
     <meta property="og:description" content="Play Falling Boxes and view our 3D portfolio. Est. Jan 2026.">
     <meta property="og:image" content="favicom.png">
@@ -21,15 +20,15 @@
 
     <style>
         /* ==========================================================================
-           SECTION 0: CSS VARIABLES & COLOR PALETTE
+           SECTION 0: CSS VARIABLES
            ========================================================================== */
         :root {
-            /* Core Theme Backgrounds */
+            /* Backgrounds */
             --bg-color: transparent; 
             --card-bg: rgba(17, 17, 17, 0.6); 
             --card-hover: rgba(22, 22, 22, 0.8);
             
-            /* Neon Cyber Palette */
+            /* Neon Palette */
             --cyan: #00f3ff;
             --green: #39ff14;
             --purple: #bc13fe;
@@ -37,16 +36,16 @@
             --white: #ffffff;
             --gray: #888888;
 
-            /* Typography Families */
+            /* Fonts */
             --font-head: 'Orbitron', sans-serif;
             --font-body: 'Roboto', sans-serif;
 
-            /* Global Spacing Variables */
+            /* Spacing Constants */
             --section-padding: 100px;
         }
 
         /* ==========================================================================
-           SECTION 1: GLOBAL RESET & UTILITIES
+           SECTION 1: GLOBAL RESET (VERBOSE MODE)
            ========================================================================== */
         * {
             box-sizing: border-box;
@@ -89,7 +88,7 @@
             max-width: 100%; 
         }
 
-        /* Custom Scrollbar Styling */
+        /* Scrollbar Styling */
         ::-webkit-scrollbar {
             width: 10px;
         }
@@ -118,9 +117,8 @@
         }
 
         /* ==========================================================================
-           SECTION 2: BACKGROUND CANVAS & CURSOR SYSTEMS
+           SECTION 2: BACKGROUND & CURSOR
            ========================================================================== */
-        
         #neuralCanvas {
             position: fixed;
             top: 0;
@@ -131,7 +129,6 @@
             background-color: #0a0a0a;
         }
 
-        /* Custom Cursor Logic (Desktop Only) */
         #cursor {
             position: fixed;
             top: 0;
@@ -171,7 +168,7 @@
             box-shadow: 0 0 15px var(--cyan);
         }
 
-        /* Enable Custom Cursor on Large Screens */
+        /* Enable custom cursor only on large screens */
         @media (min-width: 993px) {
             * {
                 cursor: none;
@@ -179,7 +176,7 @@
         }
 
         /* ==========================================================================
-           SECTION 3: LOADING SCREEN ANIMATION
+           SECTION 3: LOADING SCREEN
            ========================================================================== */
         #loader {
             position: fixed;
@@ -292,6 +289,7 @@
             width: 100%;
         }
 
+        /* Hero Button Styling */
         .hero-btn {
             margin-top: 40px;
             font-size: 1rem;
@@ -386,6 +384,7 @@
             text-shadow: 0 0 10px rgba(254, 254, 51, 0.4);
         }
 
+        /* Desktop Nav Wrapper */
         .desktop-nav {
             display: flex;
             align-items: center;
@@ -425,7 +424,7 @@
             width: 100%;
         }
 
-        /* Hamburger Menu Icon */
+        /* Hamburger Icon (Hidden on Desktop) */
         .hamburger {
             display: none;
             cursor: pointer;
@@ -469,7 +468,7 @@
             align-items: center;
         }
 
-        /* Glitch Headline */
+        /* Glitch Headline Text */
         .glitch {
             font-size: 4.5rem;
             margin-bottom: 20px;
@@ -578,7 +577,7 @@
         }
 
         /* ==========================================================================
-           SECTION 8: ABOUT SECTION (3D TILT)
+           SECTION 8: ABOUT SECTION
            ========================================================================== */
         #about {
             padding-top: var(--section-padding);
@@ -608,6 +607,19 @@
             transform-style: preserve-3d;
             transform: perspective(1000px);
             transition: transform 0.1s;
+        }
+
+        .tilt-card::after {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(125deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0.05) 40%, rgba(255,255,255,0) 100%);
+            transform: translateX(-100%);
+            transition: 0.5s;
+            pointer-events: none;
         }
 
         .tilt-card::before {
@@ -825,8 +837,7 @@
 
         .gallery-grid {
             display: grid;
-            /* STRICTLY 3 COLUMNS ON DESKTOP */
-            grid-template-columns: repeat(3, 1fr);
+            grid-template-columns: repeat(3, 1fr); /* 3 Grids at once */
             gap: 30px;
         }
 
@@ -897,7 +908,7 @@
         }
 
         /* ==========================================================================
-           SECTION 12: DATA BANK
+           SECTION 12: DATA BANK (FAQ)
            ========================================================================== */
         #databank {
             padding-top: var(--section-padding);
@@ -933,6 +944,17 @@
             align-items: center;
             cursor: pointer;
             position: relative;
+        }
+
+        .faq-question:hover {
+            background-color: rgba(0, 243, 255, 0.05);
+            color: var(--cyan);
+        }
+
+        .faq-toggle {
+            font-size: 1.5rem;
+            color: var(--gray);
+            transition: 0.3s ease;
         }
 
         .faq-answer {
@@ -1082,7 +1104,7 @@
         }
 
         /* ==========================================================================
-           SECTION 14: RESPONSIVE MEDIA QUERIES (MOBILE FIXES)
+           SECTION 14: RESPONSIVE MEDIA QUERIES (MOBILE OPTIMIZED)
            ========================================================================== */
         
         /* TABLETS (Max Width: 992px) */
@@ -1102,7 +1124,7 @@
             }
         }
 
-        /* MOBILE PHONES (Max Width: 768px) */
+        /* MOBILE PHONES (Max Width: 768px) - THE COMPACT FIX */
         @media (max-width: 768px) {
             
             /* 1. Global Spacing & Header */
@@ -1166,9 +1188,9 @@
                 min-height: 80vh;
             }
 
-            /* SHRINK GLITCH TEXT MASSIVELY FOR MOBILE */
+            /* REDUCE GLITCH TEXT SIZE ON MOBILE */
             .glitch {
-                font-size: 1.8rem; /* Much smaller to save space */
+                font-size: 1.5rem; /* Much smaller now */
                 line-height: 1.2;
                 margin-bottom: 10px;
             }
@@ -1197,6 +1219,20 @@
                 transform: none !important; /* Disable Tilt on Mobile */
             }
 
+            /* COMPACT DESCRIPTION CARD (MISSION INTRO) */
+            .mission-intro {
+                padding-top: 20px;
+                padding-bottom: 20px;
+                padding-left: 15px;
+                padding-right: 15px;
+                margin-bottom: 40px;
+            }
+
+            .mission-intro p {
+                font-size: 0.85rem; /* Smaller text for reading */
+                line-height: 1.5;
+            }
+
             /* Smaller internal headings */
             .tilt-card h3, .philosophy-card h4 {
                 font-size: 1.2rem;
@@ -1205,7 +1241,7 @@
 
             .tilt-card p, .philosophy-card p {
                 font-size: 0.9rem;
-                padding-left: 0; /* Remove excess padding */
+                padding-left: 0;
             }
 
             /* 5. GALLERY COMPACTNESS */
