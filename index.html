@@ -355,7 +355,75 @@
         }
 
         /* =========================================
-           6. GAMES / FEATURED PROJECT
+           6. MISSION & PHILOSOPHY SECTION (NEW)
+           ========================================= */
+        #mission {
+            padding: 0 0 var(--section-padding) 0; /* No top padding to flow from About */
+        }
+
+        .mission-intro {
+            background: linear-gradient(90deg, #111 0%, #0e0e0e 100%);
+            border-left: 4px solid var(--yellow);
+            padding: 40px;
+            margin-bottom: 60px;
+            border-radius: 0 4px 4px 0;
+            box-shadow: 0 0 20px rgba(0,0,0,0.5);
+        }
+
+        .mission-intro p {
+            font-size: 1.15rem;
+            line-height: 1.8;
+            color: #ddd;
+        }
+
+        .philosophy-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+
+        .philosophy-card {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            padding: 30px;
+            position: relative;
+            transition: 0.3s;
+        }
+
+        .philosophy-card:hover {
+            background: rgba(255, 255, 255, 0.04);
+            transform: translateY(-5px);
+        }
+
+        .philosophy-card h4 {
+            font-size: 1.2rem;
+            margin-bottom: 15px;
+            color: var(--white);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        /* Unique accents for philosophy cards */
+        .p-card-1 { border-top: 3px solid var(--cyan); }
+        .p-card-1 h4 { color: var(--cyan); }
+        
+        .p-card-2 { border-top: 3px solid var(--green); }
+        .p-card-2 h4 { color: var(--green); }
+        
+        .p-card-3 { border-top: 3px solid var(--purple); }
+        .p-card-3 h4 { color: var(--purple); }
+
+        .philosophy-card p {
+            font-size: 0.95rem;
+            color: #aaa;
+            line-height: 1.7;
+            text-align: justify;
+        }
+
+
+        /* =========================================
+           7. GAMES / FEATURED PROJECT
            ========================================= */
         #games {
             padding: var(--section-padding) 0;
@@ -434,7 +502,7 @@
         }
 
         /* =========================================
-           7. GALLERY / STUDIO ARCHIVES (UNIFORM)
+           8. GALLERY / STUDIO ARCHIVES (UNIFORM)
            ========================================= */
         #gallery {
             padding: var(--section-padding) 0;
@@ -443,7 +511,6 @@
 
         .gallery-grid {
             display: grid;
-            /* Uniform Grid: Every item is at least 300px wide, sharing equal space */
             grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
             gap: 25px;
         }
@@ -458,9 +525,6 @@
             border-radius: 4px;
         }
 
-        /* Removed .character-showcase styling to keep everything equal */
-
-        /* Placeholder style for non-3D items */
         .placeholder-box {
             width: 100%;
             height: 100%;
@@ -504,7 +568,6 @@
             border-top: 1px solid rgba(255,255,255,0.1);
         }
 
-        /* Model Viewer Customization */
         model-viewer {
             width: 100%;
             height: 100%;
@@ -513,7 +576,7 @@
         }
 
         /* =========================================
-           8. CONTACT SECTION
+           9. CONTACT SECTION
            ========================================= */
         #contact {
             padding: var(--section-padding) 0;
@@ -582,7 +645,7 @@
         }
 
         /* =========================================
-           9. FOOTER
+           10. FOOTER
            ========================================= */
         footer {
             border-top: 1px solid rgba(255, 255, 255, 0.1);
@@ -632,7 +695,7 @@
         }
 
         /* =========================================
-           10. MOBILE ADAPTIVE & RESPONSIVE DESIGN
+           11. MOBILE ADAPTIVE & RESPONSIVE DESIGN
            ========================================= */
         @media (max-width: 992px) {
             .hero-content h1 { font-size: 3.5rem; }
@@ -709,6 +772,33 @@
         </div>
     </section>
 
+    <section id="mission">
+        <div class="container">
+            <div class="mission-intro">
+                <p>The Solanki Visions Company operating as <strong>The Solanki Vision Studio</strong>, is a growing mobile game development studio focused on creating engaging, fun, and performance-driven gaming experiences. We specialize in designing and developing mobile games with strong gameplay mechanics, smooth user interaction, and visually appealing designs. Our goal is to learn, innovate, and deliver high-quality games that entertain players while continuously improving our development skills. At The Solanki Visions Studio, we believe great games are built through creativity, consistency, and passion for technology.</p>
+            </div>
+
+            <div class="philosophy-grid">
+                
+                <div class="philosophy-card p-card-1">
+                    <h4>Why this studio exists</h4>
+                    <p>The Solanki Visions Studio exists to turn focused creativity into real, playable experiences. It was founded with the belief that small teams, when disciplined and vision-driven, can build meaningful games without copying trends or relying on hype. The studio is built to learn, execute, and grow through real production—not shortcuts.</p>
+                </div>
+
+                <div class="philosophy-card p-card-2">
+                    <h4>What problem it solves</h4>
+                    <p>Many indie studios struggle with three core problems: lack of structure, inconsistent quality, and unfinished projects. The Solanki Visions Studio solves this by operating with clear processes, ownership, and accountability from day one. Every project follows defined standards, documented workflows, and a completion-first mindset, reducing chaos and increasing delivery reliability.</p>
+                </div>
+
+                <div class="philosophy-card p-card-3">
+                    <h4>What makes it different</h4>
+                    <p>Unlike most indie studios that start as informal groups, The Solanki Visions Studio is structured like a real company from the beginning—clear leadership, legal ownership, documented policies, and professional discipline. It prioritizes long-term credibility over short-term visibility, quality over quantity, and execution over promises. The studio is built not just to make games, but to build a sustainable creative engine.</p>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
     <section id="games">
         <div class="container">
             <h2 class="section-title">Active Project</h2>
@@ -743,13 +833,13 @@
                         camera-orbit="0deg 75deg 105%" 
                         field-of-view="30deg">
                     </model-viewer>
-                    <div class="gallery-caption">Captain Cardboard</div>
+                    <div class="gallery-caption">Main Character</div>
                 </div>
 
                 <div class="gallery-item" style="cursor: grab;">
                     <model-viewer 
                         src="TSV-CD-2026-JS-V2.glb" 
-                        alt="Astronout" 
+                        alt="Asset V2" 
                         auto-rotate 
                         camera-controls 
                         shadow-intensity="1"
@@ -761,7 +851,7 @@
                 <div class="gallery-item" style="cursor: grab;">
                     <model-viewer 
                         src="TSV-CD-2026-JS-V3.glb" 
-                        alt="Game Villain" 
+                        alt="Asset V3" 
                         auto-rotate 
                         camera-controls 
                         shadow-intensity="1"
