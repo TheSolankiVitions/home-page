@@ -132,8 +132,8 @@
            ========================================= */
         :root {
             /* Core Theme Colors */
-            --bg-color: transparent; /* Changed to transparent so Canvas shows */
-            --card-bg: rgba(17, 17, 17, 0.8); /* Semi-transparent for effect */
+            --bg-color: transparent;
+            --card-bg: rgba(17, 17, 17, 0.8);
             --card-hover: rgba(22, 22, 22, 0.9);
             
             /* Neon Palette */
@@ -410,7 +410,6 @@
             align-items: center;
             justify-content: center;
             text-align: center;
-            /* Gradient made transparent so particles show */
             background: radial-gradient(circle at center, rgba(26,26,26,0.8) 0%, rgba(10,10,10,0.95) 80%);
             padding-top: 80px;
             position: relative;
@@ -440,8 +439,8 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: transparent; /* Needs to be transparent for canvas */
-            text-shadow: 2px 0 #0a0a0a; /* Outline effect */
+            background: transparent;
+            text-shadow: 2px 0 #0a0a0a;
         }
 
         .glitch::before {
@@ -486,7 +485,7 @@
         }
 
         /* =========================================
-           5. ABOUT SECTION
+           5. ABOUT SECTION (HOLOGRAPHIC CARDS)
            ========================================= */
         #about {
             padding: var(--section-padding) 0;
@@ -499,15 +498,33 @@
             gap: 40px;
         }
 
-        .card {
+        /* Base Card Styles for Holographic Tilt */
+        .card, .philosophy-card, .contact-card, .project-img {
             background: var(--card-bg);
             padding: 50px 40px;
             border: 1px solid rgba(255, 255, 255, 0.05);
-            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
             position: relative;
             overflow: hidden;
             border-radius: 4px;
-            backdrop-filter: blur(5px); /* Blurs the particles behind */
+            backdrop-filter: blur(5px);
+            /* Important for 3D Tilt */
+            transform-style: preserve-3d;
+            transform: perspective(1000px);
+            will-change: transform; /* Performance optimization */
+        }
+
+        /* The Glare Effect Element */
+        .glare {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0) 100%);
+            pointer-events: none;
+            opacity: 0; /* Hidden by default, shown via JS */
+            transition: opacity 0.3s;
+            z-index: 2;
         }
 
         .card::before {
@@ -523,15 +540,13 @@
             transition: transform 0.4s ease;
         }
 
-        .card:hover {
-            transform: translateY(-15px);
-            background: var(--card-hover);
-            border-color: rgba(188, 19, 254, 0.3);
-            box-shadow: 0 20px 40px rgba(0,0,0,0.5);
-        }
-
         .card:hover::before {
             transform: scaleX(1);
+        }
+
+        .card:hover {
+            border-color: rgba(188, 19, 254, 0.3);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.5);
         }
 
         .card h3 {
@@ -541,6 +556,7 @@
             display: flex;
             align-items: center;
             gap: 10px;
+            transform: translateZ(20px); /* Text pops out in 3D */
         }
 
         /* =========================================
@@ -574,19 +590,7 @@
         }
 
         .philosophy-card {
-            background: rgba(255, 255, 255, 0.02);
-            border: 1px solid rgba(255, 255, 255, 0.05);
             padding: 35px;
-            position: relative;
-            transition: 0.3s;
-            border-radius: 4px;
-            backdrop-filter: blur(3px);
-        }
-
-        .philosophy-card:hover {
-            background: rgba(255, 255, 255, 0.04);
-            transform: translateY(-8px);
-            box-shadow: 0 10px 20px rgba(0,0,0,0.4);
         }
 
         .philosophy-card h4 {
@@ -596,6 +600,7 @@
             display: flex;
             align-items: center;
             gap: 10px;
+            transform: translateZ(20px);
         }
 
         .p-card-1 { border-top: 4px solid var(--cyan); }
@@ -610,6 +615,7 @@
             color: #bbb;
             line-height: 1.7;
             text-align: justify;
+            transform: translateZ(10px);
         }
 
         /* =========================================
@@ -874,23 +880,21 @@
         .contact-card {
             text-align: center;
             padding: 60px 40px;
-            background: var(--card-bg);
             border: 1px solid rgba(255, 255, 255, 0.05);
             transition: 0.3s;
             border-radius: 6px;
-            backdrop-filter: blur(5px);
         }
 
         .contact-card:hover {
             border-color: var(--cyan);
             box-shadow: 0 0 30px rgba(0, 243, 255, 0.1);
-            transform: translateY(-5px);
         }
 
         .contact-card h3 {
             color: var(--white);
             margin-bottom: 20px;
             font-size: 1.8rem;
+            transform: translateZ(20px);
         }
 
         .location-text {
@@ -900,6 +904,7 @@
             font-size: 1.3rem;
             text-transform: uppercase;
             letter-spacing: 2px;
+            transform: translateZ(10px);
         }
 
         .social-buttons {
@@ -908,6 +913,7 @@
             justify-content: center;
             flex-wrap: wrap;
             margin-top: 35px;
+            transform: translateZ(20px);
         }
 
         .social-btn {
@@ -1058,14 +1064,16 @@
             <h2 class="section-title">Who We Are</h2>
             <div class="grid-3">
                 <div class="card">
-                    <h3><span>◈</span> Leadership</h3>
+                    <div class="glare"></div> <h3><span>◈</span> Leadership</h3>
                     <p>Founded by Jankilal Solanki, a visionary CEO driving the future of mobile gaming from the heart of Rajasthan.</p>
                 </div>
                 <div class="card">
+                    <div class="glare"></div>
                     <h3><span>◈</span> Technology Stack</h3>
                     <p>We leverage cutting-edge tools including Unity 3D, Blender, C#, and advanced AI integration to build immersive worlds.</p>
                 </div>
                 <div class="card">
+                    <div class="glare"></div>
                     <h3><span>◈</span> Our Vision</h3>
                     <p>Committed to uplifting the Indie Game culture in India and creating digital experiences with genuine social impact.</p>
                 </div>
@@ -1080,14 +1088,17 @@
             </div>
             <div class="philosophy-grid">
                 <div class="philosophy-card p-card-1">
+                    <div class="glare"></div>
                     <h4>Why this studio exists</h4>
                     <p>The Solanki Visions Studio exists to turn focused creativity into real, playable experiences. It was founded with the belief that small teams, when disciplined and vision-driven, can build meaningful games without copying trends or relying on hype. The studio is built to learn, execute, and grow through real production—not shortcuts.</p>
                 </div>
                 <div class="philosophy-card p-card-2">
+                    <div class="glare"></div>
                     <h4>What problem it solves</h4>
                     <p>Many indie studios struggle with three core problems: lack of structure, inconsistent quality, and unfinished projects. The Solanki Visions Studio solves this by operating with clear processes, ownership, and accountability from day one. Every project follows defined standards, documented workflows, and a completion-first mindset, reducing chaos and increasing delivery reliability.</p>
                 </div>
                 <div class="philosophy-card p-card-3">
+                    <div class="glare"></div>
                     <h4>What makes it different</h4>
                     <p>Unlike most indie studios that start as informal groups, The Solanki Visions Studio is structured like a real company from the beginning—clear leadership, legal ownership, documented policies, and professional discipline. It prioritizes long-term credibility over short-term visibility, quality over quantity, and execution over promises. The studio is built not just to make games, but to build a sustainable creative engine.</p>
                 </div>
@@ -1100,6 +1111,7 @@
             <h2 class="section-title">Active Project</h2>
             <div class="split-screen">
                 <div class="project-img">
+                    <div class="glare"></div>
                     <img src="Annotation 2026-01-22 230108.png" alt="Falling Boxes Gameplay">
                 </div>
                 <div class="project-info">
@@ -1209,11 +1221,13 @@
             <h2 class="section-title">Connect With Us</h2>
             <div class="grid-2">
                 <div class="contact-card">
+                    <div class="glare"></div>
                     <h3>Headquarters</h3>
                     <p>Jodhpur, Rajasthan</p>
                     <p class="location-text">India</p>
                 </div>
                 <div class="contact-card">
+                    <div class="glare"></div>
                     <h3>Social Media</h3>
                     <div class="social-buttons">
                         <a href="https://www.linkedin.com/company/solanki-game-development-company/" target="_blank" class="social-btn">LinkedIn</a>
@@ -1251,10 +1265,9 @@
         const mouse = {
             x: null,
             y: null,
-            radius: 150 // Radius for connection lines
+            radius: 150
         }
 
-        // Update mouse position for particle connection
         window.addEventListener('mousemove', function(event) {
             mouse.x = event.x;
             mouse.y = event.y;
@@ -1276,7 +1289,6 @@
                 ctx.fill();
             }
             update() {
-                // Bounce off edges
                 if (this.x > canvas.width || this.x < 0) {
                     this.directionX = -this.directionX;
                 }
@@ -1291,7 +1303,7 @@
 
         function init() {
             particlesArray = [];
-            let numberOfParticles = (canvas.height * canvas.width) / 9000; // Density
+            let numberOfParticles = (canvas.height * canvas.width) / 9000;
             for (let i = 0; i < numberOfParticles; i++) {
                 let size = (Math.random() * 2) + 1;
                 let x = (Math.random() * ((innerWidth - size * 2) - (size * 2)) + size * 2);
@@ -1310,10 +1322,9 @@
                     let distance = ((particlesArray[a].x - particlesArray[b].x) * (particlesArray[a].x - particlesArray[b].x))
                     + ((particlesArray[a].y - particlesArray[b].y) * (particlesArray[a].y - particlesArray[b].y));
                     
-                    // Connect particles to each other
                     if (distance < (canvas.width/7) * (canvas.height/7)) {
                         opacityValue = 1 - (distance/20000);
-                        ctx.strokeStyle = 'rgba(255, 255, 255,' + opacityValue/10 + ')'; // Faint white lines
+                        ctx.strokeStyle = 'rgba(255, 255, 255,' + opacityValue/10 + ')';
                         ctx.lineWidth = 1;
                         ctx.beginPath();
                         ctx.moveTo(particlesArray[a].x, particlesArray[a].y);
@@ -1321,12 +1332,11 @@
                         ctx.stroke();
                     }
                 }
-                // Connect particles to MOUSE
                 let dx = mouse.x - particlesArray[a].x;
                 let dy = mouse.y - particlesArray[a].y;
                 let distanceMouse = Math.sqrt(dx*dx + dy*dy);
                 if (distanceMouse < 150) {
-                    ctx.strokeStyle = 'rgba(0, 243, 255, 0.4)'; // Cyan lines to mouse
+                    ctx.strokeStyle = 'rgba(0, 243, 255, 0.4)';
                     ctx.lineWidth = 1;
                     ctx.beginPath();
                     ctx.moveTo(particlesArray[a].x, particlesArray[a].y);
@@ -1356,25 +1366,58 @@
         animate();
 
         // ----------------------------------------
-        // 2. CUSTOM CURSOR LOGIC (HTML ELEMENT)
+        // 2. HOLOGRAPHIC TILT PHYSICS (NEW)
         // ----------------------------------------
+        const tiltCards = document.querySelectorAll('.card, .philosophy-card, .contact-card, .project-img');
+
+        tiltCards.forEach(card => {
+            card.addEventListener('mousemove', (e) => {
+                const rect = card.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+                
+                // Calculate Rotation
+                const centerX = rect.width / 2;
+                const centerY = rect.height / 2;
+                const rotateX = ((y - centerY) / centerY) * -10; // Max 10 deg tilt
+                const rotateY = ((x - centerX) / centerX) * 10;
+
+                // Apply Transformation
+                card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale3d(1.02, 1.02, 1.02)`;
+
+                // Move Glare
+                const glare = card.querySelector('.glare');
+                if(glare) {
+                    glare.style.opacity = '1';
+                    glare.style.background = `radial-gradient(circle at ${x}px ${y}px, rgba(255,255,255,0.2), transparent)`;
+                }
+            });
+
+            card.addEventListener('mouseleave', () => {
+                card.style.transform = `perspective(1000px) rotateX(0) rotateY(0) scale3d(1, 1, 1)`;
+                const glare = card.querySelector('.glare');
+                if(glare) glare.style.opacity = '0';
+            });
+        });
+
+        // ----------------------------------------
+        // 3. UTILITY LOGIC
+        // ----------------------------------------
+        
+        // Custom Cursor
         const cursor = document.getElementById('cursor');
         const body = document.body;
-
         document.addEventListener('mousemove', (e) => {
             cursor.style.left = e.clientX + 'px';
             cursor.style.top = e.clientY + 'px';
         });
-
         const interactables = document.querySelectorAll('a, button, .faq-item, .gallery-item');
         interactables.forEach(el => {
             el.addEventListener('mouseenter', () => body.classList.add('hovering'));
             el.addEventListener('mouseleave', () => body.classList.remove('hovering'));
         });
 
-        // ----------------------------------------
-        // 3. UTILITY LOGIC (Loader, BackToTop, FAQ)
-        // ----------------------------------------
+        // Loader
         window.addEventListener('load', function() {
             const loader = document.getElementById('loader');
             setTimeout(() => {
@@ -1383,6 +1426,7 @@
             }, 1500); 
         });
 
+        // Back to Top
         const backBtn = document.getElementById('backToTop');
         window.addEventListener('scroll', () => {
             if (window.scrollY > 500) {
@@ -1391,11 +1435,11 @@
                 backBtn.style.display = 'none';
             }
         });
-
         backBtn.addEventListener('click', () => {
             window.scrollTo({ top: 0, behavior: 'smooth' });
         });
 
+        // FAQ
         const faqItems = document.querySelectorAll('.faq-item');
         faqItems.forEach(item => {
             item.addEventListener('click', () => {
