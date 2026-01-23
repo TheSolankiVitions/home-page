@@ -242,6 +242,37 @@
         }
 
         /* =========================================
+           2.5. BACK TO TOP BUTTON (NEW)
+           ========================================= */
+        #backToTop {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 50px;
+            height: 50px;
+            background: rgba(10, 10, 10, 0.8);
+            border: 2px solid var(--cyan);
+            color: var(--cyan);
+            font-size: 1.5rem;
+            font-family: var(--font-head);
+            border-radius: 50%;
+            cursor: pointer;
+            display: none; /* Hidden by default */
+            align-items: center;
+            justify-content: center;
+            z-index: 990; /* Below loader, above content */
+            transition: all 0.3s ease;
+            backdrop-filter: blur(5px);
+        }
+
+        #backToTop:hover {
+            background: var(--cyan);
+            color: #000;
+            box-shadow: 0 0 20px var(--cyan);
+            transform: translateY(-5px);
+        }
+
+        /* =========================================
            3. STICKY NAVIGATION
            ========================================= */
         header {
@@ -1030,7 +1061,10 @@
         </div>
     </footer>
 
+    <button id="backToTop" title="Return to Top">↑</button>
+
     <script>
+        // 1. LOADING SCREEN LOGIC
         window.addEventListener('load', function() {
             const loader = document.getElementById('loader');
             // Ensure loader stays for at least 1.5 seconds for dramatic effect
@@ -1038,6 +1072,26 @@
                 loader.style.opacity = '0';
                 loader.style.visibility = 'hidden';
             }, 1500); 
+        });
+
+        // 2. BACK TO TOP BUTTON LOGIC
+        const backBtn = document.getElementById('backToTop');
+        
+        // Show/Hide button based on scroll position
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 500) {
+                backBtn.style.display = 'flex';
+            } else {
+                backBtn.style.display = 'none';
+            }
+        });
+
+        // Smooth scroll to top when clicked
+        backBtn.addEventListener('click', () => {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
         });
     </script>
 
