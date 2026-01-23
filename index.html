@@ -21,15 +21,15 @@
 
     <style>
         /* ==========================================================================
-           0. CORE SETTINGS, VARIABLES & RESET
+           SECTION 0: CSS VARIABLES & COLOR PALETTE
            ========================================================================== */
         :root {
             /* Core Theme Colors */
-            --bg-color: transparent; /* Transparent to let Canvas show through */
+            --bg-color: transparent; /* Allows Canvas to be seen */
             --card-bg: rgba(17, 17, 17, 0.6); 
             --card-hover: rgba(22, 22, 22, 0.8);
             
-            /* Neon Palette */
+            /* Neon Cyber Palette */
             --cyan: #00f3ff;
             --green: #39ff14;
             --purple: #bc13fe;
@@ -37,18 +37,27 @@
             --white: #ffffff;
             --gray: #888888;
 
-            /* Typography */
+            /* Typography Settings */
             --font-head: 'Orbitron', sans-serif;
             --font-body: 'Roboto', sans-serif;
 
-            /* Spacing */
+            /* Global Spacing */
             --section-padding: 100px;
         }
 
+        /* ==========================================================================
+           SECTION 1: GLOBAL RESET & UTILITIES
+           ========================================================================== */
         * {
             box-sizing: border-box;
-            margin: 0;
-            padding: 0;
+            margin-top: 0;
+            margin-bottom: 0;
+            margin-left: 0;
+            margin-right: 0;
+            padding-top: 0;
+            padding-bottom: 0;
+            padding-left: 0;
+            padding-right: 0;
         }
 
         html {
@@ -60,17 +69,19 @@
             color: var(--white);
             font-family: var(--font-body);
             line-height: 1.7;
-            overflow-x: hidden; /* Prevents horizontal scroll on mobile */
+            overflow-x: hidden; /* Prevents horizontal scrollbar */
         }
 
         a { 
             text-decoration: none; 
             color: inherit; 
-            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1); 
+            transition-property: all;
+            transition-duration: 0.3s;
+            transition-timing-function: ease;
         }
         
         ul { 
-            list-style: none; 
+            list-style-type: none; 
         }
         
         img { 
@@ -84,57 +95,58 @@
         }
         
         ::-webkit-scrollbar-track {
-            background: #050505; 
+            background-color: #050505; 
         }
         
         ::-webkit-scrollbar-thumb {
-            background: #333; 
+            background-color: #333; 
             border: 1px solid #444;
         }
         
         ::-webkit-scrollbar-thumb:hover {
-            background: var(--cyan); 
+            background-color: var(--cyan); 
         }
 
-        /* Selection Highlight Color */
         ::selection {
-            background: var(--cyan);
+            background-color: var(--cyan);
             color: #000;
         }
 
         /* ==========================================================================
-           1. CANVAS BACKGROUND & CURSOR SYSTEMS
+           SECTION 2: BACKGROUND CANVAS & CURSOR
            ========================================================================== */
         
-        /* Neural Network Background Canvas */
+        /* The Particle Background */
         #neuralCanvas {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            z-index: -1; /* Behind everything */
+            z-index: -1; 
             background-color: #0a0a0a;
         }
 
-        /* Custom Cursor Container */
+        /* Custom Cursor Logic */
         #cursor {
             position: fixed;
             top: 0;
             left: 0;
             width: 20px;
             height: 20px;
-            border: 2px solid var(--cyan);
+            border-style: solid;
+            border-width: 2px;
+            border-color: var(--cyan);
             border-radius: 50%;
             transform: translate(-50%, -50%);
             pointer-events: none;
             z-index: 10000;
-            transition: width 0.2s, height 0.2s, background-color 0.2s, border-color 0.2s;
+            transition-property: width, height, background-color, border-color;
+            transition-duration: 0.2s;
             mix-blend-mode: exclusion;
-            display: none; /* Hidden by default, shown via JS on Desktop only */
+            display: none; /* JS enables this on Desktop */
         }
 
-        /* The Center Dot of the Cursor */
         #cursor::after {
             content: '';
             position: absolute;
@@ -142,12 +154,11 @@
             left: 50%;
             width: 4px;
             height: 4px;
-            background: var(--cyan);
+            background-color: var(--cyan);
             border-radius: 50%;
             transform: translate(-50%, -50%);
         }
 
-        /* Cursor Hover State (Target Lock) */
         body.hovering #cursor {
             width: 50px;
             height: 50px;
@@ -156,7 +167,7 @@
             box-shadow: 0 0 15px var(--cyan);
         }
 
-        /* Hide Default Cursor on Desktop Only */
+        /* Disable default cursor only on large screens */
         @media (min-width: 993px) {
             * {
                 cursor: none;
@@ -164,7 +175,7 @@
         }
 
         /* ==========================================================================
-           2. LOADING SCREEN
+           SECTION 3: LOADING SCREEN ANIMATION
            ========================================================================== */
         #loader {
             position: fixed;
@@ -178,19 +189,24 @@
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            transition: opacity 0.5s ease-out, visibility 0.5s;
-            cursor: default !important;
+            transition-property: opacity, visibility;
+            transition-duration: 0.5s;
+            transition-timing-function: ease-out;
         }
 
         .spinner {
             width: 70px;
             height: 70px;
             border: 4px solid rgba(0, 243, 255, 0.1);
-            border-top: 4px solid var(--cyan);
-            border-bottom: 4px solid var(--green);
-            border-left: 4px solid transparent;
+            border-top-color: var(--cyan);
+            border-bottom-color: var(--green);
+            border-left-color: transparent;
+            border-right-color: 4px solid rgba(0, 243, 255, 0.1);
             border-radius: 50%;
-            animation: spin 1s linear infinite;
+            animation-name: spin;
+            animation-duration: 1s;
+            animation-timing-function: linear;
+            animation-iteration-count: infinite;
             margin-bottom: 25px;
             box-shadow: 0 0 25px rgba(0, 243, 255, 0.2);
         }
@@ -201,9 +217,10 @@
             letter-spacing: 4px;
             font-size: 1.1rem;
             font-weight: 700;
-            animation: pulse 1.5s infinite alternate;
-            text-align: center;
-            padding: 0 20px;
+            animation-name: pulse;
+            animation-duration: 1.5s;
+            animation-iteration-count: infinite;
+            animation-direction: alternate;
         }
 
         @keyframes spin {
@@ -217,59 +234,19 @@
         }
 
         /* ==========================================================================
-           3. TYPOGRAPHY & UTILITIES
-           ========================================================================== */
-        h1, h2, h3, h4, h5 {
-            font-family: var(--font-head);
-            text-transform: uppercase;
-            letter-spacing: 2px;
-        }
-
-        p {
-            font-size: 1.05rem;
-            color: #ccc;
-            font-weight: 300;
-        }
-
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 20px;
-        }
-
-        .section-title {
-            text-align: center;
-            font-size: 2.8rem;
-            margin-bottom: 4rem;
-            position: relative;
-            display: inline-block;
-            left: 50%;
-            transform: translateX(-50%);
-            text-shadow: 0 0 15px rgba(255, 255, 255, 0.1);
-            width: 100%;
-        }
-
-        .section-title::after {
-            content: '';
-            display: block;
-            width: 60%;
-            height: 4px;
-            background: var(--cyan);
-            margin: 15px auto 0;
-            box-shadow: 0 0 15px var(--cyan);
-            border-radius: 2px;
-        }
-
-        /* ==========================================================================
-           4. BUTTON STYLES
+           SECTION 4: BUTTON STYLES
            ========================================================================== */
         .btn {
-            padding: 14px 28px;
+            padding-top: 14px;
+            padding-bottom: 14px;
+            padding-left: 28px;
+            padding-right: 28px;
             font-family: var(--font-head);
             font-weight: 700;
             font-size: 0.9rem;
             cursor: pointer;
-            border: 2px solid;
+            border-style: solid;
+            border-width: 2px;
             transition: all 0.3s ease;
             display: inline-block;
             text-transform: uppercase;
@@ -291,9 +268,11 @@
             left: 0;
             width: 0%;
             height: 100%;
-            background: var(--cyan);
+            background-color: var(--cyan);
             z-index: -1;
-            transition: width 0.3s ease;
+            transition-property: width;
+            transition-duration: 0.3s;
+            transition-timing-function: ease;
         }
 
         .cta-btn:hover {
@@ -311,7 +290,7 @@
         }
 
         .play-btn:hover {
-            background: var(--green);
+            background-color: var(--green);
             color: var(--bg-color);
             box-shadow: 0 0 35px rgba(57, 255, 20, 0.5);
             transform: scale(1.05);
@@ -324,7 +303,7 @@
             right: 30px;
             width: 50px;
             height: 50px;
-            background: rgba(10, 10, 10, 0.8);
+            background-color: rgba(10, 10, 10, 0.8);
             border: 2px solid var(--cyan);
             color: var(--cyan);
             font-size: 1.5rem;
@@ -339,23 +318,24 @@
         }
 
         #backToTop:hover {
-            background: var(--cyan);
+            background-color: var(--cyan);
             color: #000;
             box-shadow: 0 0 20px var(--cyan);
             transform: translateY(-5px);
         }
 
         /* ==========================================================================
-           5. NAVIGATION HEADER
+           SECTION 5: NAVIGATION HEADER (MOBILE HAMBURGER LOGIC)
            ========================================================================== */
         header {
             position: fixed;
             top: 0;
             width: 100%;
-            background: rgba(10, 10, 10, 0.95);
+            background-color: rgba(10, 10, 10, 0.95);
             border-bottom: 1px solid rgba(255, 255, 255, 0.08);
             z-index: 1000;
-            padding: 15px 0;
+            padding-top: 15px;
+            padding-bottom: 15px;
             backdrop-filter: blur(15px);
             transition: 0.3s;
         }
@@ -364,6 +344,7 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
+            position: relative;
         }
 
         .logo {
@@ -371,6 +352,7 @@
             align-items: center;
             gap: 15px;
             cursor: pointer;
+            z-index: 1001; /* Ensure logo is clickable above menu overlay */
         }
 
         .logo img {
@@ -385,6 +367,13 @@
             font-weight: 900;
             font-size: 1.3rem;
             text-shadow: 0 0 10px rgba(254, 254, 51, 0.4);
+        }
+
+        /* Desktop Navigation Container */
+        .desktop-nav {
+            display: flex;
+            align-items: center;
+            gap: 40px;
         }
 
         .nav-links {
@@ -407,7 +396,7 @@
             left: 0;
             width: 0%;
             height: 2px;
-            background: var(--cyan);
+            background-color: var(--cyan);
             transition: 0.3s;
         }
 
@@ -420,8 +409,24 @@
             width: 100%;
         }
 
+        /* HAMBURGER MENU STYLES (Hidden by default on Desktop) */
+        .hamburger {
+            display: none;
+            cursor: pointer;
+            z-index: 1002;
+        }
+
+        .bar {
+            display: block;
+            width: 25px;
+            height: 3px;
+            margin: 5px auto;
+            background-color: var(--white);
+            transition: all 0.3s ease-in-out;
+        }
+
         /* ==========================================================================
-           6. HERO SECTION & GLITCH ANIMATION
+           SECTION 6: HERO SECTION
            ========================================================================== */
         #hero {
             height: 100vh;
@@ -429,7 +434,8 @@
             align-items: center;
             justify-content: center;
             text-align: center;
-            background: radial-gradient(circle at center, rgba(26,26,26,0.8) 0%, rgba(10,10,10,0.95) 80%);
+            /* Gradient transparency to reveal particles */
+            background-image: radial-gradient(circle at center, rgba(26,26,26,0.8) 0%, rgba(10,10,10,0.95) 80%);
             padding-top: 80px;
             position: relative;
             overflow: hidden;
@@ -438,10 +444,9 @@
         .hero-content {
             position: relative;
             z-index: 1;
-            padding: 0 15px;
         }
 
-        /* Glitch Headline Text */
+        /* Glitch Animation Classes */
         .glitch {
             font-size: 4.5rem;
             margin-bottom: 20px;
@@ -482,7 +487,6 @@
             5% { clip: rect(60px, 9999px, 10px, 0); transform: skew(0.5deg); }
             10% { clip: rect(10px, 9999px, 90px, 0); transform: skew(0.5deg); }
             15% { clip: rect(80px, 9999px, 20px, 0); transform: skew(0.5deg); }
-            20% { clip: rect(10px, 9999px, 40px, 0); transform: skew(0.5deg); }
             50% { clip: rect(10px, 9999px, 50px, 0); transform: skew(0.5deg); }
             100% { clip: rect(40px, 9999px, 80px, 0); transform: skew(0.5deg); }
         }
@@ -505,35 +509,49 @@
         }
 
         /* ==========================================================================
-           7. ABOUT SECTION (3D TILT ENABLED)
+           SECTION 7: GLOBAL CARD STYLES & LAYOUTS
            ========================================================================== */
-        #about {
-            padding: var(--section-padding) 0;
+        .section-title {
+            text-align: center;
+            font-size: 2.8rem;
+            margin-bottom: 4rem;
             position: relative;
+            display: inline-block;
+            left: 50%;
+            transform: translateX(-50%);
+            text-shadow: 0 0 15px rgba(255, 255, 255, 0.1);
         }
 
-        .grid-3 {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-            gap: 40px;
+        .section-title::after {
+            content: '';
+            display: block;
+            width: 60%;
+            height: 4px;
+            background-color: var(--cyan);
+            margin-top: 15px;
+            margin-left: auto;
+            margin-right: auto;
+            box-shadow: 0 0 15px var(--cyan);
+            border-radius: 2px;
         }
 
-        /* Tilt Card Base Styles */
+        /* 3D Tilt Card Logic */
         .tilt-card {
-            background: var(--card-bg);
-            padding: 50px 40px;
+            background-color: var(--card-bg);
+            padding-top: 50px;
+            padding-bottom: 50px;
+            padding-left: 40px;
+            padding-right: 40px;
             border: 1px solid rgba(255, 255, 255, 0.05);
             position: relative;
             overflow: hidden;
             border-radius: 4px;
             backdrop-filter: blur(5px);
-            /* Transform settings for 3D effect */
             transform-style: preserve-3d;
             transform: perspective(1000px);
             transition: transform 0.1s;
         }
 
-        /* Glare Effect for Glassmorphism */
         .tilt-card::after {
             content: "";
             position: absolute;
@@ -554,7 +572,7 @@
             left: 0;
             width: 100%;
             height: 3px;
-            background: var(--purple);
+            background-color: var(--purple);
             transform: scaleX(0);
             transform-origin: left;
             transition: transform 0.4s ease;
@@ -578,20 +596,43 @@
             gap: 10px;
             transform: translateZ(20px);
         }
-        
+
         .tilt-card p {
             transform: translateZ(10px);
         }
 
+        /* Grid Layouts */
+        .grid-3 {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 40px;
+        }
+
+        .grid-2 {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 40px;
+        }
+
         /* ==========================================================================
-           8. MISSION & PHILOSOPHY
+           SECTION 8: SPECIFIC SECTIONS
            ========================================================================== */
+        
+        /* About Section */
+        #about {
+            padding-top: var(--section-padding);
+            padding-bottom: var(--section-padding);
+            position: relative;
+        }
+
+        /* Mission Section */
         #mission {
-            padding: 0 0 var(--section-padding) 0;
+            padding-top: 0;
+            padding-bottom: var(--section-padding);
         }
 
         .mission-intro {
-            background: linear-gradient(90deg, rgba(17,17,17,0.9) 0%, rgba(14,14,14,0.9) 100%);
+            background-image: linear-gradient(90deg, rgba(17,17,17,0.9) 0%, rgba(14,14,14,0.9) 100%);
             border-left: 5px solid var(--yellow);
             padding: 50px;
             margin-bottom: 70px;
@@ -601,63 +642,16 @@
             backdrop-filter: blur(5px);
         }
 
-        .mission-intro p {
-            font-size: 1.2rem;
-            line-height: 1.9;
-            color: #e0e0e0;
-        }
-
         .philosophy-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
             gap: 30px;
         }
 
-        /* Philosophy Card Accents */
-        .philosophy-card {
-            background: rgba(255, 255, 255, 0.02);
-            border: 1px solid rgba(255, 255, 255, 0.05);
-            padding: 35px;
-            position: relative;
-            transition: 0.3s;
-            border-radius: 4px;
-            backdrop-filter: blur(3px);
-        }
-
-        .philosophy-card:hover {
-            background: rgba(255, 255, 255, 0.04);
-            transform: translateY(-8px);
-            box-shadow: 0 10px 20px rgba(0,0,0,0.4);
-        }
-
-        .philosophy-card h4 {
-            font-size: 1.3rem;
-            margin-bottom: 20px;
-            color: var(--white);
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .p-card-1 { border-top: 4px solid var(--cyan); }
-        .p-card-1 h4 { color: var(--cyan); }
-        .p-card-2 { border-top: 4px solid var(--green); }
-        .p-card-2 h4 { color: var(--green); }
-        .p-card-3 { border-top: 4px solid var(--purple); }
-        .p-card-3 h4 { color: var(--purple); }
-
-        .philosophy-card p {
-            font-size: 1rem;
-            color: #bbb;
-            line-height: 1.7;
-            text-align: justify;
-        }
-
-        /* ==========================================================================
-           9. GAMES & FEATURED PROJECT
-           ========================================================================== */
+        /* Games Section */
         #games {
-            padding: var(--section-padding) 0;
+            padding-top: var(--section-padding);
+            padding-bottom: var(--section-padding);
             background: linear-gradient(180deg, rgba(10,10,10,0.8), #0f0f0f);
         }
 
@@ -667,32 +661,10 @@
             gap: 60px;
             border: 1px solid rgba(57, 255, 20, 0.3);
             padding: 50px;
-            background: rgba(57, 255, 20, 0.02);
+            background-color: rgba(57, 255, 20, 0.02);
             position: relative;
             border-radius: 8px;
             backdrop-filter: blur(5px);
-        }
-
-        .split-screen::after {
-            content: '';
-            position: absolute;
-            bottom: -1px;
-            right: -1px;
-            width: 30px;
-            height: 30px;
-            border-bottom: 4px solid var(--green);
-            border-right: 4px solid var(--green);
-        }
-
-        .split-screen::before {
-            content: '';
-            position: absolute;
-            top: -1px;
-            left: -1px;
-            width: 30px;
-            height: 30px;
-            border-top: 4px solid var(--green);
-            border-left: 4px solid var(--green);
         }
 
         .project-img {
@@ -706,7 +678,7 @@
             min-height: 350px;
             border-radius: 4px;
         }
-        
+
         .project-img img {
             width: 100%;
             height: 100%;
@@ -725,14 +697,12 @@
         .project-info h3 {
             font-size: 3rem;
             margin-bottom: 20px;
-            color: var(--white);
             line-height: 1;
-            text-shadow: 0 0 10px rgba(255,255,255,0.1);
         }
 
-        .project-info .genre-tag {
+        .genre-tag {
             display: inline-block;
-            background: rgba(57, 255, 20, 0.1);
+            background-color: rgba(57, 255, 20, 0.1);
             color: var(--green);
             padding: 8px 15px;
             font-size: 0.8rem;
@@ -742,17 +712,10 @@
             letter-spacing: 1px;
         }
 
-        .project-info p {
-            margin-bottom: 40px;
-            font-size: 1.15rem;
-            color: #ccc;
-        }
-
-        /* ==========================================================================
-           10. GALLERY & 3D ASSETS
-           ========================================================================== */
+        /* Gallery Section */
         #gallery {
-            padding: var(--section-padding) 0;
+            padding-top: var(--section-padding);
+            padding-bottom: var(--section-padding);
             background-color: rgba(11,11,11,0.9);
         }
 
@@ -767,42 +730,9 @@
             height: 400px;
             border: 1px solid rgba(255,255,255,0.08);
             overflow: hidden;
-            background: #111;
+            background-color: #111;
             transition: all 0.4s ease;
             border-radius: 6px;
-        }
-
-        .placeholder-box {
-            width: 100%;
-            height: 100%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background: linear-gradient(135deg, #111, #1a1a1a);
-            color: #444;
-            font-family: var(--font-head);
-            text-align: center;
-            padding: 20px;
-            flex-direction: column;
-            gap: 15px;
-        }
-        
-        .placeholder-icon {
-            font-size: 2.5rem;
-            color: var(--cyan);
-            opacity: 0.5;
-            transition: 0.3s;
-        }
-
-        .gallery-item:hover {
-            border-color: var(--yellow);
-            box-shadow: 0 0 25px rgba(254, 254, 51, 0.15);
-            transform: translateY(-8px);
-        }
-        
-        .gallery-item:hover .placeholder-icon {
-            opacity: 1;
-            text-shadow: 0 0 10px var(--cyan);
         }
 
         .gallery-caption {
@@ -811,7 +741,7 @@
             left: 0;
             width: 100%;
             padding: 15px;
-            background: rgba(0,0,0,0.85);
+            background-color: rgba(0,0,0,0.85);
             backdrop-filter: blur(5px);
             color: var(--white);
             font-family: var(--font-head);
@@ -821,19 +751,11 @@
             border-top: 1px solid rgba(255,255,255,0.1);
         }
 
-        model-viewer {
-            width: 100%;
-            height: 100%;
-            background-color: transparent;
-            --poster-color: transparent;
-        }
-
-        /* ==========================================================================
-           11. DATA BANK (FAQ) SECTION
-           ========================================================================== */
+        /* Data Bank (FAQ) Section */
         #databank {
-            padding: var(--section-padding) 0;
-            background: rgba(8,8,8,0.9);
+            padding-top: var(--section-padding);
+            padding-bottom: var(--section-padding);
+            background-color: rgba(8,8,8,0.9);
             border-top: 1px solid rgba(255, 255, 255, 0.05);
         }
 
@@ -855,7 +777,7 @@
         .faq-question {
             width: 100%;
             padding: 25px;
-            background: rgba(255, 255, 255, 0.02);
+            background-color: rgba(255, 255, 255, 0.02);
             color: var(--white);
             font-family: var(--font-head);
             font-size: 1.1rem;
@@ -866,22 +788,11 @@
             position: relative;
         }
 
-        .faq-question:hover {
-            background: rgba(0, 243, 255, 0.05);
-            color: var(--cyan);
-        }
-
-        .faq-toggle {
-            font-size: 1.5rem;
-            color: var(--gray);
-            transition: 0.3s ease;
-        }
-
         .faq-answer {
             max-height: 0;
             overflow: hidden;
             transition: max-height 0.4s ease-out;
-            background: #000;
+            background-color: #000;
         }
 
         .faq-answer p {
@@ -893,54 +804,25 @@
             font-size: 1rem;
         }
 
-        /* Active State for FAQ */
-        .faq-item.active .faq-answer { 
-            max-height: 300px; 
-        }
-        
-        .faq-item.active .faq-toggle { 
-            transform: rotate(45deg); 
-            color: var(--cyan); 
-        }
-        
-        .faq-item.active { 
-            box-shadow: 0 0 20px rgba(0, 0, 0, 0.5); 
+        /* FAQ Active State */
+        .faq-item.active .faq-answer {
+            max-height: 300px;
         }
 
-        /* ==========================================================================
-           12. CONTACT SECTION
-           ========================================================================== */
+        .faq-item.active .faq-toggle {
+            transform: rotate(45deg);
+            color: var(--cyan);
+        }
+
+        /* Contact Section */
         #contact {
-            padding: var(--section-padding) 0;
+            padding-top: var(--section-padding);
+            padding-bottom: var(--section-padding);
             background: radial-gradient(circle at bottom, #111 0%, #0a0a0a 70%);
-        }
-
-        .grid-2 {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-            gap: 40px;
         }
 
         .contact-card {
             text-align: center;
-            padding: 60px 40px;
-            background: var(--card-bg);
-            border: 1px solid rgba(255, 255, 255, 0.05);
-            transition: 0.3s;
-            border-radius: 6px;
-            backdrop-filter: blur(5px);
-        }
-
-        .contact-card:hover {
-            border-color: var(--cyan);
-            box-shadow: 0 0 30px rgba(0, 243, 255, 0.1);
-            transform: translateY(-5px);
-        }
-
-        .contact-card h3 {
-            color: var(--white);
-            margin-bottom: 20px;
-            font-size: 1.8rem;
         }
 
         .location-text {
@@ -973,20 +855,18 @@
         }
 
         .social-btn:hover {
-            background: var(--purple);
+            background-color: var(--purple);
             color: #fff;
             box-shadow: 0 0 25px var(--purple);
             transform: scale(1.05);
         }
 
-        /* ==========================================================================
-           13. FOOTER
-           ========================================================================== */
+        /* Footer */
         footer {
             border-top: 1px solid rgba(255, 255, 255, 0.1);
             padding: 80px 0;
             text-align: center;
-            background: #050505;
+            background-color: #050505;
         }
 
         .footer-logo {
@@ -1015,7 +895,7 @@
             left: 0;
             width: 0;
             height: 1px;
-            background: var(--yellow);
+            background-color: var(--yellow);
             transition: 0.3s;
         }
 
@@ -1023,155 +903,112 @@
             width: 100%;
         }
 
-        .copyright {
-            font-size: 0.85rem;
-            color: #666;
-            margin-top: 25px;
-            letter-spacing: 1px;
-        }
-
         /* ==========================================================================
-           14. MOBILE RESPONSIVE OPTIMIZATION (CRITICAL FOR PHONES)
+           SECTION 9: RESPONSIVE MEDIA QUERIES (CRITICAL UPDATES)
            ========================================================================== */
         
-        /* Tablet Sizing */
+        /* TABLETS (Max Width: 992px) */
         @media (max-width: 992px) {
-            .hero-content h1 { 
-                font-size: 3.5rem; 
+            .hero-content h1 {
+                font-size: 3.5rem;
             }
-            
-            .split-screen { 
-                flex-direction: column; 
-                text-align: center; 
+            .split-screen {
+                flex-direction: column;
+                text-align: center;
             }
-            
-            .split-screen::after { 
-                display: none; 
+            .split-screen::after, .split-screen::before {
+                display: none;
             }
-            
-            .split-screen::before { 
-                display: none; 
-            }
-            
-            .project-img { 
-                min-height: 250px; 
+            .project-img {
+                min-height: 250px;
             }
         }
 
-        /* Mobile Sizing (The Compact Logic) */
+        /* MOBILE PHONES (Max Width: 768px) - HAMBURGER ACTIVATION */
         @media (max-width: 768px) {
-            /* Reduce Global Padding */
-            :root { 
-                --section-padding: 60px; 
+            
+            /* 1. Header & Hamburger Logic */
+            header {
+                padding-top: 10px;
+                padding-bottom: 10px;
             }
 
-            /* Header & Navigation Stacking */
-            header { 
-                position: relative; 
-                padding: 10px 0; 
+            .nav-container {
+                position: relative;
+                flex-direction: row; /* Align Logo Left, Menu Right */
             }
-            
-            .nav-container { 
-                flex-direction: column; 
-                gap: 20px; 
+
+            /* Hide the Desktop Nav and Apply Button */
+            .desktop-nav {
+                position: fixed;
+                left: -100%; /* Hide off-screen */
+                top: 60px;
+                flex-direction: column;
+                background-color: rgba(10, 10, 10, 0.98);
+                width: 100%;
+                text-align: center;
+                transition: 0.3s;
+                border-bottom: 1px solid rgba(255,255,255,0.1);
+                padding: 30px 0;
             }
-            
-            .nav-links { 
-                flex-direction: column; 
-                gap: 15px; 
-                text-align: center; 
-                width: 100%; 
+
+            /* Slide menu in when active */
+            .desktop-nav.active {
+                left: 0;
             }
-            
-            .nav-links li { 
-                width: 100%; 
-                border-bottom: 1px solid rgba(255,255,255,0.05); 
-                padding-bottom: 10px; 
+
+            .nav-links {
+                flex-direction: column;
+                gap: 25px;
             }
-            
-            /* Make Buttons fit Mobile Width */
-            .cta-btn { 
-                width: 100%; 
-                text-align: center; 
-                margin-top: 15px; 
-                padding: 12px; /* Smaller touch target */
+
+            /* Show Hamburger Icon */
+            .hamburger {
+                display: block;
             }
-            
-            .btn {
-                padding: 10px 20px;
-                font-size: 0.8rem;
+
+            .hamburger.active .bar:nth-child(2) {
+                opacity: 0;
             }
-            
-            /* Hero Section Compactness */
-            #hero { 
-                height: auto; 
-                min-height: 85vh; 
-                padding: 100px 20px; 
+
+            .hamburger.active .bar:nth-child(1) {
+                transform: translateY(8px) rotate(45deg);
             }
-            
-            .hero-content h1 { 
-                font-size: 2.5rem; 
+
+            .hamburger.active .bar:nth-child(3) {
+                transform: translateY(-8px) rotate(-45deg);
             }
-            
+
+            /* 2. Hero & Typography Adjustments */
             .glitch {
-                font-size: 2.2rem; /* Prevent headline breaking */
+                font-size: 2.2rem;
             }
             
-            .sub-headline { 
-                font-size: 1rem; 
+            .sub-headline {
+                font-size: 1rem;
             }
 
-            /* Section Spacing & Card Compactness */
-            .section-title { 
-                font-size: 2.2rem; 
-                margin-bottom: 3rem; 
-                width: 100%; 
-            }
-            
-            .card, .contact-card, .philosophy-card, .tilt-card { 
-                padding: 30px 20px; /* Reduced padding */
-                margin-bottom: 20px;
-            }
-            
-            .mission-intro { 
-                padding: 30px; 
-                border-left-width: 3px; 
-            }
-            
-            /* Stack all Grids vertically */
-            .grid-3 { grid-template-columns: 1fr; }
-            .grid-2 { grid-template-columns: 1fr; }
-            .gallery-grid { grid-template-columns: 1fr; } 
-            
-            /* Reduce 3D Viewer Height on Mobile */
-            .gallery-item { 
-                height: 350px; 
-            }
-            
-            /* Social Buttons Vertical Stack */
-            .social-buttons { 
-                flex-direction: column; 
-                gap: 15px; 
-            }
-            
-            .social-btn { 
-                width: 100%; 
-                text-align: center; 
+            /* 3. Layout Stacking */
+            .grid-3, .grid-2, .philosophy-grid, .gallery-grid {
+                grid-template-columns: 1fr;
             }
 
-            /* IMPORTANT: DISABLE DESKTOP-ONLY FEATURES */
-            #cursor { 
-                display: none !important; 
+            .section-title {
+                font-size: 2.2rem;
+            }
+
+            .tilt-card, .contact-card, .philosophy-card {
+                padding: 30px 20px;
+                transform: none !important; /* Disable Tilt on Mobile */
+            }
+
+            /* 4. Disable Mouse-Specific Features */
+            #cursor {
+                display: none !important;
             }
             
-            /* Reset cursors to default touch */
-            * { 
-                cursor: auto !important; 
-            }
-            
-            /* Disable 3D Tilt on Mobile (Batter/Usability Saver) */
-            .tilt-card { 
-                transform: none !important; 
+            * {
+                cursor: auto !important;
             }
         }
     </style>
@@ -1193,7 +1030,14 @@
                 <img src="favicom.png" alt="SVS Logo">
                 <span class="logo-text">THE SOLANKI VISIONS</span>
             </div>
-            <nav>
+
+            <div class="hamburger">
+                <span class="bar"></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
+            </div>
+
+            <nav class="desktop-nav">
                 <ul class="nav-links">
                     <li><a href="#hero">Home</a></li>
                     <li><a href="#about">About</a></li>
@@ -1201,8 +1045,8 @@
                     <li><a href="#gallery">Gallery</a></li>
                     <li><a href="#contact">Contact</a></li>
                 </ul>
+                <a href="https://forms.gle/dW4QTRT5F4jbZHky6" target="_blank" class="btn cta-btn" style="margin-left: 20px;">Apply Now</a>
             </nav>
-            <a href="https://forms.gle/dW4QTRT5F4jbZHky6" target="_blank" class="btn cta-btn">Apply Now</a>
         </div>
     </header>
 
@@ -1324,6 +1168,7 @@
         <div class="container">
             <h2 class="section-title">Data Bank</h2>
             <div class="faq-grid">
+                
                 <div class="faq-item">
                     <div class="faq-question">
                         <span>// ARE YOU CURRENTLY HIRING?</span>
@@ -1333,6 +1178,7 @@
                         <p>We are always looking for visionary talent. While specific roles open periodically, you can use the "Apply Now" button to submit your portfolio to our database for future consideration.</p>
                     </div>
                 </div>
+
                 <div class="faq-item">
                     <div class="faq-question">
                         <span>// IS FALLING BOXES FREE TO PLAY?</span>
@@ -1342,6 +1188,7 @@
                         <p>Yes. Falling Boxes is currently free-to-play via web browsers and mobile devices. We believe in accessible gaming for everyone during our early development phase.</p>
                     </div>
                 </div>
+
                 <div class="faq-item">
                     <div class="faq-question">
                         <span>// WILL FALLING BOXES COME TO IOS?</span>
@@ -1351,6 +1198,7 @@
                         <p>We are currently optimizing for Android and WebGL. An iOS build is in our roadmap for Q4 2026, pending Apple Store verification.</p>
                     </div>
                 </div>
+
                 <div class="faq-item">
                     <div class="faq-question">
                         <span>// HOW DO I REPORT BUGS?</span>
@@ -1360,6 +1208,7 @@
                         <p>Signal us directly via email at contact@solankivisions.com. Please include your device model and OS version for faster debugging.</p>
                     </div>
                 </div>
+
                 <div class="faq-item">
                     <div class="faq-question">
                         <span>// ARE YOU OPEN TO PUBLISHER DEALS?</span>
@@ -1369,6 +1218,7 @@
                         <p>We are currently self-published but open to strategic partnerships that align with our creative vision.</p>
                     </div>
                 </div>
+
                 <div class="faq-item">
                     <div class="faq-question">
                         <span>// WHAT IS THE 'SOLANKI VISION'?</span>
@@ -1378,6 +1228,7 @@
                         <p>Our vision is to uplift the Indie Game culture in India by creating digital experiences with genuine social impact and technical excellence.</p>
                     </div>
                 </div>
+
             </div>
         </div>
     </section>
@@ -1418,7 +1269,28 @@
 
     <script>
         // ----------------------------------------
-        // 1. NEURAL NETWORK PARTICLE SYSTEM
+        // 1. MOBILE MENU TOGGLE LOGIC
+        // ----------------------------------------
+        const hamburger = document.querySelector(".hamburger");
+        const navMenu = document.querySelector(".desktop-nav");
+        const navLinks = document.querySelectorAll(".nav-links li");
+
+        // Toggle Menu
+        hamburger.addEventListener("click", () => {
+            hamburger.classList.toggle("active");
+            navMenu.classList.toggle("active");
+        });
+
+        // Close menu when a link is clicked
+        navLinks.forEach(link => {
+            link.addEventListener("click", () => {
+                hamburger.classList.remove("active");
+                navMenu.classList.remove("active");
+            });
+        });
+
+        // ----------------------------------------
+        // 2. NEURAL NETWORK PARTICLE SYSTEM
         // ----------------------------------------
         const canvas = document.getElementById('neuralCanvas');
         const ctx = canvas.getContext('2d');
@@ -1455,7 +1327,7 @@
 
         function init() {
             particlesArray = [];
-            // MOBILE OPTIMIZATION: Reduce particles on small screens to save battery
+            // Optimize for mobile: fewer particles if width < 768px
             let divisor = (canvas.width < 768) ? 15000 : 9000;
             let numberOfParticles = (canvas.height * canvas.width) / divisor;
             
@@ -1485,7 +1357,7 @@
                     }
                 }
                 
-                // Only enable mouse connections on desktop to save mobile battery
+                // Only enable mouse connections on Desktop to save mobile battery
                 if (window.innerWidth > 768) {
                     let dx = mouse.x - particlesArray[a].x;
                     let dy = mouse.y - particlesArray[a].y;
@@ -1517,7 +1389,7 @@
         init(); animate();
 
         // ----------------------------------------
-        // 2. 3D TILT PHYSICS (DESKTOP ONLY)
+        // 3. 3D TILT PHYSICS (DESKTOP ONLY)
         // ----------------------------------------
         if (window.matchMedia("(pointer: fine)").matches) {
             const cards = document.querySelectorAll('.tilt-card');
@@ -1539,7 +1411,7 @@
         }
 
         // ----------------------------------------
-        // 3. CURSOR & HOVER LOGIC (DESKTOP ONLY)
+        // 4. CURSOR & HOVER LOGIC (DESKTOP ONLY)
         // ----------------------------------------
         if (window.matchMedia("(pointer: fine)").matches) {
             const cursor = document.getElementById('cursor');
@@ -1560,24 +1432,37 @@
         }
 
         // ----------------------------------------
-        // 4. UTILITIES (LOADER, BACK TO TOP, FAQ)
+        // 5. UTILITIES (LOADER, BACK TO TOP, FAQ)
         // ----------------------------------------
         window.addEventListener('load', function() {
             const loader = document.getElementById('loader');
-            setTimeout(() => { loader.style.opacity = '0'; loader.style.visibility = 'hidden'; }, 1500); 
+            setTimeout(() => { 
+                loader.style.opacity = '0'; 
+                setTimeout(() => {
+                    loader.style.visibility = 'hidden'; 
+                }, 500);
+            }, 1500); 
         });
 
         const backBtn = document.getElementById('backToTop');
         window.addEventListener('scroll', () => {
-            if (window.scrollY > 500) backBtn.style.display = 'flex';
-            else backBtn.style.display = 'none';
+            if (window.scrollY > 500) {
+                backBtn.style.display = 'flex';
+            } else {
+                backBtn.style.display = 'none';
+            }
         });
-        backBtn.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+        
+        backBtn.addEventListener('click', () => {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
 
         const faqItems = document.querySelectorAll('.faq-item');
         faqItems.forEach(item => {
             item.addEventListener('click', () => {
-                faqItems.forEach(otherItem => { if (otherItem !== item) otherItem.classList.remove('active'); });
+                faqItems.forEach(otherItem => { 
+                    if (otherItem !== item) otherItem.classList.remove('active'); 
+                });
                 item.classList.toggle('active');
             });
         });
