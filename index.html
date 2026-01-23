@@ -21,8 +21,53 @@
 
     <style>
         /* =========================================
-           0. LOADING SCREEN ANIMATION
+           0. CUSTOM CYBER CURSOR & LOADING
            ========================================= */
+        
+        /* Hide default cursor to replace with custom one */
+        * {
+            cursor: none;
+        }
+
+        /* The Custom Cursor Container */
+        #cursor {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 20px;
+            height: 20px;
+            border: 2px solid var(--cyan);
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+            pointer-events: none; /* Allows clicking through the cursor */
+            z-index: 10000;
+            transition: width 0.2s, height 0.2s, background-color 0.2s, border-color 0.2s;
+            mix-blend-mode: exclusion; /* Cool contrast effect */
+        }
+
+        /* The Center Dot of the Cursor */
+        #cursor::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 4px;
+            height: 4px;
+            background: var(--cyan);
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        /* Cursor Hover State (Target Lock Effect) */
+        body.hovering #cursor {
+            width: 50px;
+            height: 50px;
+            background-color: rgba(0, 243, 255, 0.1);
+            border-color: var(--white);
+            box-shadow: 0 0 15px var(--cyan);
+        }
+
+        /* Loading Screen Overlay */
         #loader {
             position: fixed;
             top: 0;
@@ -36,6 +81,7 @@
             justify-content: center;
             align-items: center;
             transition: opacity 0.5s ease-out, visibility 0.5s;
+            cursor: default !important; /* Keep default cursor for loader */
         }
 
         .spinner {
@@ -241,9 +287,7 @@
             transform: scale(1.05);
         }
 
-        /* =========================================
-           2.5. BACK TO TOP BUTTON (NEW)
-           ========================================= */
+        /* Back To Top Button */
         #backToTop {
             position: fixed;
             bottom: 30px;
@@ -256,11 +300,10 @@
             font-size: 1.5rem;
             font-family: var(--font-head);
             border-radius: 50%;
-            cursor: pointer;
-            display: none; /* Hidden by default */
+            display: none;
             align-items: center;
             justify-content: center;
-            z-index: 990; /* Below loader, above content */
+            z-index: 990;
             transition: all 0.3s ease;
             backdrop-filter: blur(5px);
         }
@@ -713,7 +756,86 @@
         }
 
         /* =========================================
-           9. CONTACT SECTION
+           9. DATA BANK (FAQ SECTION) - NEW FEATURE
+           ========================================= */
+        #databank {
+            padding: var(--section-padding) 0;
+            background: #080808;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .faq-grid {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .faq-item {
+            margin-bottom: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            transition: 0.3s;
+        }
+
+        .faq-item:hover {
+            border-color: var(--cyan);
+        }
+
+        .faq-question {
+            width: 100%;
+            padding: 25px;
+            background: rgba(255, 255, 255, 0.02);
+            color: var(--white);
+            font-family: var(--font-head);
+            font-size: 1.1rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: pointer;
+            position: relative;
+        }
+
+        .faq-question:hover {
+            background: rgba(0, 243, 255, 0.05);
+            color: var(--cyan);
+        }
+
+        .faq-toggle {
+            font-size: 1.5rem;
+            color: var(--gray);
+            transition: 0.3s ease;
+        }
+
+        .faq-answer {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.4s ease-out;
+            background: #000;
+        }
+
+        .faq-answer p {
+            padding: 30px;
+            color: #aaa;
+            line-height: 1.7;
+            border-left: 3px solid var(--purple);
+            margin: 0;
+            font-size: 1rem;
+        }
+
+        /* Active State logic */
+        .faq-item.active .faq-answer {
+            max-height: 300px; /* Expands to show text */
+        }
+
+        .faq-item.active .faq-toggle {
+            transform: rotate(45deg);
+            color: var(--cyan);
+        }
+
+        .faq-item.active {
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+        }
+
+        /* =========================================
+           10. CONTACT SECTION
            ========================================= */
         #contact {
             padding: var(--section-padding) 0;
@@ -783,7 +905,7 @@
         }
 
         /* =========================================
-           10. FOOTER
+           11. FOOTER
            ========================================= */
         footer {
             border-top: 1px solid rgba(255, 255, 255, 0.1);
@@ -834,7 +956,7 @@
         }
 
         /* =========================================
-           11. MOBILE ADAPTIVE & RESPONSIVE DESIGN
+           12. MOBILE ADAPTIVE & RESPONSIVE DESIGN
            ========================================= */
         @media (max-width: 992px) {
             .hero-content h1 { font-size: 3.5rem; }
@@ -845,38 +967,38 @@
         }
 
         @media (max-width: 768px) {
-            /* Header Logic for Mobile */
             header { position: relative; padding: 10px 0; }
             .nav-container { flex-direction: column; gap: 20px; }
             .nav-links { flex-direction: column; gap: 15px; text-align: center; width: 100%; }
             .nav-links li { width: 100%; border-bottom: 1px solid rgba(255,255,255,0.05); padding-bottom: 10px; }
             
-            /* Buttons */
             .cta-btn { width: 100%; text-align: center; margin-top: 15px; }
             
-            /* Hero */
             #hero { height: auto; min-height: 85vh; padding: 100px 20px; }
             .hero-content h1 { font-size: 2.5rem; }
             .sub-headline { font-size: 1rem; }
 
-            /* Spacing */
             .section-title { font-size: 2.2rem; margin-bottom: 3rem; width: 100%; }
             .card, .contact-card, .philosophy-card { padding: 30px 20px; }
             
-            /* Mission */
             .mission-intro { padding: 30px; border-left-width: 3px; }
-
-            /* Gallery */
+            
             .gallery-grid { grid-template-columns: 1fr; } /* Stack assets on mobile */
             .gallery-item { height: 350px; }
-
-            /* Socials */
+            
             .social-buttons { flex-direction: column; gap: 15px; }
             .social-btn { width: 100%; text-align: center; }
+
+            /* IMPORTANT: On mobile, we MUST hide the custom cursor 
+               and restore the default touch behavior */
+            #cursor { display: none; }
+            * { cursor: auto !important; }
         }
     </style>
 </head>
 <body>
+
+    <div id="cursor"></div>
 
     <div id="loader">
         <div class="spinner"></div>
@@ -934,24 +1056,19 @@
             <div class="mission-intro">
                 <p>The Solanki Visions Company operating as <strong>The Solanki Vision Studio</strong>, is a growing mobile game development studio focused on creating engaging, fun, and performance-driven gaming experiences. We specialize in designing and developing mobile games with strong gameplay mechanics, smooth user interaction, and visually appealing designs. Our goal is to learn, innovate, and deliver high-quality games that entertain players while continuously improving our development skills. At The Solanki Visions Studio, we believe great games are built through creativity, consistency, and passion for technology.</p>
             </div>
-
             <div class="philosophy-grid">
-                
                 <div class="philosophy-card p-card-1">
                     <h4>Why this studio exists</h4>
                     <p>The Solanki Visions Studio exists to turn focused creativity into real, playable experiences. It was founded with the belief that small teams, when disciplined and vision-driven, can build meaningful games without copying trends or relying on hype. The studio is built to learn, execute, and grow through real production—not shortcuts.</p>
                 </div>
-
                 <div class="philosophy-card p-card-2">
                     <h4>What problem it solves</h4>
                     <p>Many indie studios struggle with three core problems: lack of structure, inconsistent quality, and unfinished projects. The Solanki Visions Studio solves this by operating with clear processes, ownership, and accountability from day one. Every project follows defined standards, documented workflows, and a completion-first mindset, reducing chaos and increasing delivery reliability.</p>
                 </div>
-
                 <div class="philosophy-card p-card-3">
                     <h4>What makes it different</h4>
                     <p>Unlike most indie studios that start as informal groups, The Solanki Visions Studio is structured like a real company from the beginning—clear leadership, legal ownership, documented policies, and professional discipline. It prioritizes long-term credibility over short-term visibility, quality over quantity, and execution over promises. The studio is built not just to make games, but to build a sustainable creative engine.</p>
                 </div>
-
             </div>
         </div>
     </section>
@@ -982,13 +1099,9 @@
                     <model-viewer 
                         src="character.glb" 
                         alt="Solanki Studio Character Asset" 
-                        auto-rotate 
-                        camera-controls 
-                        autoplay
-                        shadow-intensity="1.5"
-                        exposure="1"
-                        camera-orbit="0deg 75deg 105%" 
-                        field-of-view="30deg">
+                        auto-rotate camera-controls autoplay
+                        shadow-intensity="1.5" exposure="1"
+                        camera-orbit="0deg 75deg 105%" field-of-view="30deg">
                     </model-viewer>
                     <div class="gallery-caption">Main Character</div>
                 </div>
@@ -997,9 +1110,7 @@
                     <model-viewer 
                         src="TSV-CD-2026-JS-V2.glb" 
                         alt="Asset V2" 
-                        auto-rotate 
-                        camera-controls 
-                        shadow-intensity="1"
+                        auto-rotate camera-controls shadow-intensity="1"
                         camera-orbit="45deg 55deg 105%">
                     </model-viewer>
                     <div class="gallery-caption">Cyber Drone (V2)</div>
@@ -1009,9 +1120,7 @@
                     <model-viewer 
                         src="TSV-CD-2026-JS-V3.glb" 
                         alt="Asset V3" 
-                        auto-rotate 
-                        camera-controls 
-                        shadow-intensity="1"
+                        auto-rotate camera-controls shadow-intensity="1"
                         camera-orbit="-45deg 55deg 105%">
                     </model-viewer>
                     <div class="gallery-caption">Mech Unit (V3)</div>
@@ -1023,6 +1132,55 @@
                         <span>Events</span>
                     </div>
                     <div class="gallery-caption">Jodhpur Tech Summit</div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <section id="databank">
+        <div class="container">
+            <h2 class="section-title">Data Bank</h2>
+            <div class="faq-grid">
+                
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <span>// ARE YOU CURRENTLY HIRING?</span>
+                        <span class="faq-toggle">+</span>
+                    </div>
+                    <div class="faq-answer">
+                        <p>We are always looking for visionary talent. While specific roles open periodically, you can use the "Apply Now" button to submit your portfolio to our database for future consideration.</p>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <span>// IS FALLING BOXES FREE TO PLAY?</span>
+                        <span class="faq-toggle">+</span>
+                    </div>
+                    <div class="faq-answer">
+                        <p>Yes. Falling Boxes is currently free-to-play via web browsers and mobile devices. We believe in accessible gaming for everyone during our early development phase.</p>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <span>// WHAT ENGINE DO YOU USE?</span>
+                        <span class="faq-toggle">+</span>
+                    </div>
+                    <div class="faq-answer">
+                        <p>Our primary development engine is Unity 3D, supported by Blender for 3D modeling and animation. We also integrate various AI tools to optimize our workflow and asset generation.</p>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <span>// DO YOU ACCEPT INTERNS?</span>
+                        <span class="faq-toggle">+</span>
+                    </div>
+                    <div class="faq-answer">
+                        <p>Yes, we are committed to education and mentorship in Rajasthan. We offer internship programs for driven individuals looking to learn real-world game production pipelines.</p>
+                    </div>
                 </div>
 
             </div>
@@ -1064,7 +1222,23 @@
     <button id="backToTop" title="Return to Top">↑</button>
 
     <script>
-        // 1. LOADING SCREEN LOGIC
+        // 1. CUSTOM CURSOR LOGIC
+        const cursor = document.getElementById('cursor');
+        const body = document.body;
+
+        document.addEventListener('mousemove', (e) => {
+            cursor.style.left = e.clientX + 'px';
+            cursor.style.top = e.clientY + 'px';
+        });
+
+        // Add hover effect for links and buttons
+        const interactables = document.querySelectorAll('a, button, .faq-item, .gallery-item');
+        interactables.forEach(el => {
+            el.addEventListener('mouseenter', () => body.classList.add('hovering'));
+            el.addEventListener('mouseleave', () => body.classList.remove('hovering'));
+        });
+
+        // 2. LOADING SCREEN LOGIC
         window.addEventListener('load', function() {
             const loader = document.getElementById('loader');
             // Ensure loader stays for at least 1.5 seconds for dramatic effect
@@ -1074,10 +1248,9 @@
             }, 1500); 
         });
 
-        // 2. BACK TO TOP BUTTON LOGIC
+        // 3. BACK TO TOP BUTTON LOGIC
         const backBtn = document.getElementById('backToTop');
         
-        // Show/Hide button based on scroll position
         window.addEventListener('scroll', () => {
             if (window.scrollY > 500) {
                 backBtn.style.display = 'flex';
@@ -1086,11 +1259,24 @@
             }
         });
 
-        // Smooth scroll to top when clicked
         backBtn.addEventListener('click', () => {
             window.scrollTo({
                 top: 0,
                 behavior: 'smooth'
+            });
+        });
+
+        // 4. FAQ ACCORDION LOGIC
+        const faqItems = document.querySelectorAll('.faq-item');
+
+        faqItems.forEach(item => {
+            item.addEventListener('click', () => {
+                // Optional: Close other open items
+                faqItems.forEach(otherItem => {
+                    if (otherItem !== item) otherItem.classList.remove('active');
+                });
+                // Toggle current item
+                item.classList.toggle('active');
             });
         });
     </script>
