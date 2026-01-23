@@ -24,8 +24,8 @@
            SECTION 0: CSS VARIABLES & COLOR PALETTE
            ========================================================================== */
         :root {
-            /* Core Theme Colors */
-            --bg-color: transparent; /* Allows Canvas to be seen */
+            /* Core Theme Backgrounds */
+            --bg-color: transparent; 
             --card-bg: rgba(17, 17, 17, 0.6); 
             --card-hover: rgba(22, 22, 22, 0.8);
             
@@ -37,11 +37,11 @@
             --white: #ffffff;
             --gray: #888888;
 
-            /* Typography Settings */
+            /* Typography Families */
             --font-head: 'Orbitron', sans-serif;
             --font-body: 'Roboto', sans-serif;
 
-            /* Global Spacing */
+            /* Global Spacing Variables */
             --section-padding: 100px;
         }
 
@@ -69,7 +69,7 @@
             color: var(--white);
             font-family: var(--font-body);
             line-height: 1.7;
-            overflow-x: hidden; /* Prevents horizontal scrollbar */
+            overflow-x: hidden;
         }
 
         a { 
@@ -100,16 +100,20 @@
         
         ::-webkit-scrollbar-thumb {
             background-color: #333; 
-            border: 1px solid #444;
+            border-top-width: 1px;
+            border-bottom-width: 1px;
+            border-left-width: 1px;
+            border-right-width: 1px;
+            border-style: solid;
+            border-color: #444;
         }
         
         ::-webkit-scrollbar-thumb:hover {
             background-color: var(--cyan); 
         }
 
-        /* Selection Highlight Color */
         ::selection {
-            background: var(--cyan);
+            background-color: var(--cyan);
             color: #000;
         }
 
@@ -117,18 +121,17 @@
            SECTION 2: BACKGROUND CANVAS & CURSOR SYSTEMS
            ========================================================================== */
         
-        /* Neural Network Background Canvas */
         #neuralCanvas {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            z-index: -1; /* Behind everything */
+            z-index: -1; 
             background-color: #0a0a0a;
         }
 
-        /* Custom Cursor Logic */
+        /* Custom Cursor Logic (Desktop Only) */
         #cursor {
             position: fixed;
             top: 0;
@@ -145,7 +148,7 @@
             transition-property: width, height, background-color, border-color;
             transition-duration: 0.2s;
             mix-blend-mode: exclusion;
-            display: none; /* JS enables this on Desktop only */
+            display: none; 
         }
 
         #cursor::after {
@@ -160,7 +163,6 @@
             transform: translate(-50%, -50%);
         }
 
-        /* Cursor Hover State (Target Lock) */
         body.hovering #cursor {
             width: 50px;
             height: 50px;
@@ -169,7 +171,7 @@
             box-shadow: 0 0 15px var(--cyan);
         }
 
-        /* Disable default cursor only on large screens */
+        /* Enable Custom Cursor on Large Screens */
         @media (min-width: 993px) {
             * {
                 cursor: none;
@@ -225,7 +227,8 @@
             animation-iteration-count: infinite;
             animation-direction: alternate;
             text-align: center;
-            padding: 0 20px;
+            padding-left: 20px;
+            padding-right: 20px;
         }
 
         @keyframes spin {
@@ -289,9 +292,8 @@
             width: 100%;
         }
 
-        /* Specific style for the button in Hero Section */
         .hero-btn {
-            margin-top: 40px; /* Space from the sub-headline */
+            margin-top: 40px;
             font-size: 1rem;
             padding-top: 16px;
             padding-bottom: 16px;
@@ -340,7 +342,7 @@
         }
 
         /* ==========================================================================
-           SECTION 5: NAVIGATION HEADER (MOBILE HAMBURGER LOGIC)
+           SECTION 5: NAVIGATION HEADER
            ========================================================================== */
         header {
             position: fixed;
@@ -367,7 +369,7 @@
             align-items: center;
             gap: 15px;
             cursor: pointer;
-            z-index: 1001; /* Ensure logo is clickable above menu overlay */
+            z-index: 1001; 
         }
 
         .logo img {
@@ -384,7 +386,6 @@
             text-shadow: 0 0 10px rgba(254, 254, 51, 0.4);
         }
 
-        /* Desktop Navigation Container */
         .desktop-nav {
             display: flex;
             align-items: center;
@@ -424,7 +425,7 @@
             width: 100%;
         }
 
-        /* HAMBURGER MENU STYLES (Hidden by default on Desktop) */
+        /* Hamburger Menu Icon */
         .hamburger {
             display: none;
             cursor: pointer;
@@ -435,7 +436,10 @@
             display: block;
             width: 25px;
             height: 3px;
-            margin: 5px auto;
+            margin-top: 5px;
+            margin-bottom: 5px;
+            margin-left: auto;
+            margin-right: auto;
             background-color: var(--white);
             transition: all 0.3s ease-in-out;
         }
@@ -449,7 +453,6 @@
             align-items: center;
             justify-content: center;
             text-align: center;
-            /* Gradient transparency to reveal particles */
             background-image: radial-gradient(circle at center, rgba(26,26,26,0.8) 0%, rgba(10,10,10,0.95) 80%);
             padding-top: 80px;
             position: relative;
@@ -459,13 +462,14 @@
         .hero-content {
             position: relative;
             z-index: 1;
-            padding: 0 15px;
+            padding-left: 15px;
+            padding-right: 15px;
             display: flex;
             flex-direction: column;
             align-items: center;
         }
 
-        /* Glitch Headline Text */
+        /* Glitch Headline */
         .glitch {
             font-size: 4.5rem;
             margin-bottom: 20px;
@@ -503,16 +507,12 @@
 
         @keyframes glitch-anim-1 {
             0% { clip: rect(20px, 9999px, 80px, 0); transform: skew(0.5deg); }
-            5% { clip: rect(60px, 9999px, 10px, 0); transform: skew(0.5deg); }
-            10% { clip: rect(10px, 9999px, 90px, 0); transform: skew(0.5deg); }
-            15% { clip: rect(80px, 9999px, 20px, 0); transform: skew(0.5deg); }
             50% { clip: rect(10px, 9999px, 50px, 0); transform: skew(0.5deg); }
             100% { clip: rect(40px, 9999px, 80px, 0); transform: skew(0.5deg); }
         }
 
         @keyframes glitch-anim-2 {
             0% { clip: rect(60px, 9999px, 20px, 0); transform: skew(0.5deg); }
-            5% { clip: rect(10px, 9999px, 70px, 0); transform: skew(0.5deg); }
             50% { clip: rect(20px, 9999px, 90px, 0); transform: skew(0.5deg); }
             100% { clip: rect(10px, 9999px, 60px, 0); transform: skew(0.5deg); }
         }
@@ -528,7 +528,57 @@
         }
 
         /* ==========================================================================
-           SECTION 7: ABOUT SECTION (3D TILT ENABLED)
+           SECTION 7: TYPOGRAPHY & UTILITIES
+           ========================================================================== */
+        h1, h2, h3, h4, h5 {
+            font-family: var(--font-head);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        p {
+            font-size: 1.05rem;
+            color: #ccc;
+            font-weight: 300;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin-top: 0;
+            margin-bottom: 0;
+            margin-left: auto;
+            margin-right: auto;
+            padding-left: 20px;
+            padding-right: 20px;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 2.8rem;
+            margin-bottom: 4rem;
+            position: relative;
+            display: inline-block;
+            left: 50%;
+            transform: translateX(-50%);
+            text-shadow: 0 0 15px rgba(255, 255, 255, 0.1);
+            width: 100%;
+        }
+
+        .section-title::after {
+            content: '';
+            display: block;
+            width: 60%;
+            height: 4px;
+            background-color: var(--cyan);
+            margin-top: 15px;
+            margin-left: auto;
+            margin-right: auto;
+            box-shadow: 0 0 15px var(--cyan);
+            border-radius: 2px;
+        }
+
+        /* ==========================================================================
+           SECTION 8: ABOUT SECTION (3D TILT)
            ========================================================================== */
         #about {
             padding-top: var(--section-padding);
@@ -538,40 +588,26 @@
 
         .grid-3 {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            grid-template-columns: repeat(3, 1fr);
             gap: 40px;
         }
 
-        /* Tilt Card Base Styles */
         .tilt-card {
             background-color: var(--card-bg);
             padding-top: 50px;
             padding-bottom: 50px;
             padding-left: 40px;
             padding-right: 40px;
-            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-width: 1px;
+            border-style: solid;
+            border-color: rgba(255, 255, 255, 0.05);
             position: relative;
             overflow: hidden;
             border-radius: 4px;
             backdrop-filter: blur(5px);
-            /* Transform settings for 3D effect */
             transform-style: preserve-3d;
             transform: perspective(1000px);
             transition: transform 0.1s;
-        }
-
-        /* Glare Effect for Glassmorphism */
-        .tilt-card::after {
-            content: "";
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(125deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0.05) 40%, rgba(255,255,255,0) 100%);
-            transform: translateX(-100%);
-            transition: 0.5s;
-            pointer-events: none;
         }
 
         .tilt-card::before {
@@ -611,15 +647,18 @@
         }
 
         /* ==========================================================================
-           SECTION 8: MISSION & PHILOSOPHY
+           SECTION 9: MISSION & PHILOSOPHY
            ========================================================================== */
         #mission {
-            padding: 0 0 var(--section-padding) 0;
+            padding-top: 0;
+            padding-bottom: var(--section-padding);
         }
 
         .mission-intro {
             background-image: linear-gradient(90deg, rgba(17,17,17,0.9) 0%, rgba(14,14,14,0.9) 100%);
-            border-left: 5px solid var(--yellow);
+            border-left-width: 5px;
+            border-left-style: solid;
+            border-left-color: var(--yellow);
             padding: 50px;
             margin-bottom: 70px;
             border-radius: 0 6px 6px 0;
@@ -636,14 +675,15 @@
 
         .philosophy-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            grid-template-columns: repeat(3, 1fr);
             gap: 30px;
         }
 
-        /* Philosophy Card Accents */
         .philosophy-card {
-            background: rgba(255, 255, 255, 0.02);
-            border: 1px solid rgba(255, 255, 255, 0.05);
+            background-color: rgba(255, 255, 255, 0.02);
+            border-width: 1px;
+            border-style: solid;
+            border-color: rgba(255, 255, 255, 0.05);
             padding: 35px;
             position: relative;
             transition: 0.3s;
@@ -652,7 +692,7 @@
         }
 
         .philosophy-card:hover {
-            background: rgba(255, 255, 255, 0.04);
+            background-color: rgba(255, 255, 255, 0.04);
             transform: translateY(-8px);
             box-shadow: 0 10px 20px rgba(0,0,0,0.4);
         }
@@ -681,10 +721,11 @@
         }
 
         /* ==========================================================================
-           SECTION 9: GAMES & FEATURED PROJECT
+           SECTION 10: GAMES
            ========================================================================== */
         #games {
-            padding: var(--section-padding) 0;
+            padding-top: var(--section-padding);
+            padding-bottom: var(--section-padding);
             background: linear-gradient(180deg, rgba(10,10,10,0.8), #0f0f0f);
         }
 
@@ -774,16 +815,18 @@
         }
 
         /* ==========================================================================
-           SECTION 10: GALLERY & 3D ASSETS
+           SECTION 11: GALLERY (3 COLUMNS)
            ========================================================================== */
         #gallery {
-            padding: var(--section-padding) 0;
+            padding-top: var(--section-padding);
+            padding-bottom: var(--section-padding);
             background-color: rgba(11,11,11,0.9);
         }
 
         .gallery-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            /* STRICTLY 3 COLUMNS ON DESKTOP */
+            grid-template-columns: repeat(3, 1fr);
             gap: 30px;
         }
 
@@ -854,10 +897,11 @@
         }
 
         /* ==========================================================================
-           SECTION 11: DATA BANK (FAQ) SECTION
+           SECTION 12: DATA BANK
            ========================================================================== */
         #databank {
-            padding: var(--section-padding) 0;
+            padding-top: var(--section-padding);
+            padding-bottom: var(--section-padding);
             background-color: rgba(8,8,8,0.9);
             border-top: 1px solid rgba(255, 255, 255, 0.05);
         }
@@ -891,17 +935,6 @@
             position: relative;
         }
 
-        .faq-question:hover {
-            background-color: rgba(0, 243, 255, 0.05);
-            color: var(--cyan);
-        }
-
-        .faq-toggle {
-            font-size: 1.5rem;
-            color: var(--gray);
-            transition: 0.3s ease;
-        }
-
         .faq-answer {
             max-height: 0;
             overflow: hidden;
@@ -918,7 +951,6 @@
             font-size: 1rem;
         }
 
-        /* Active State for FAQ */
         .faq-item.active .faq-answer { 
             max-height: 300px; 
         }
@@ -927,22 +959,19 @@
             transform: rotate(45deg); 
             color: var(--cyan); 
         }
-        
-        .faq-item.active { 
-            box-shadow: 0 0 20px rgba(0, 0, 0, 0.5); 
-        }
 
         /* ==========================================================================
-           SECTION 12: CONTACT SECTION
+           SECTION 13: CONTACT & FOOTER
            ========================================================================== */
         #contact {
-            padding: var(--section-padding) 0;
+            padding-top: var(--section-padding);
+            padding-bottom: var(--section-padding);
             background: radial-gradient(circle at bottom, #111 0%, #0a0a0a 70%);
         }
 
         .grid-2 {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            grid-template-columns: repeat(2, 1fr);
             gap: 40px;
         }
 
@@ -1004,9 +1033,6 @@
             transform: scale(1.05);
         }
 
-        /* ==========================================================================
-           SECTION 13: FOOTER
-           ========================================================================== */
         footer {
             border-top: 1px solid rgba(255, 255, 255, 0.1);
             padding: 80px 0;
@@ -1056,7 +1082,7 @@
         }
 
         /* ==========================================================================
-           SECTION 14: RESPONSIVE MEDIA QUERIES (CRITICAL UPDATES)
+           SECTION 14: RESPONSIVE MEDIA QUERIES (MOBILE FIXES)
            ========================================================================== */
         
         /* TABLETS (Max Width: 992px) */
@@ -1076,15 +1102,14 @@
             }
         }
 
-        /* MOBILE PHONES (Max Width: 768px) - HAMBURGER ACTIVATION */
+        /* MOBILE PHONES (Max Width: 768px) */
         @media (max-width: 768px) {
             
-            /* 1. Reduce Global Padding for Smaller Screens */
+            /* 1. Global Spacing & Header */
             :root {
                 --section-padding: 60px;
             }
 
-            /* 2. Header & Hamburger Logic */
             header {
                 padding-top: 10px;
                 padding-bottom: 10px;
@@ -1092,13 +1117,13 @@
 
             .nav-container {
                 position: relative;
-                flex-direction: row; /* Align Logo Left, Menu Right */
+                flex-direction: row;
             }
 
-            /* Hide the Desktop Nav by Default (Off-screen) */
+            /* 2. Menu Logic */
             .desktop-nav {
                 position: fixed;
-                left: -100%; /* Hide off-screen */
+                left: -100%; 
                 top: 60px;
                 flex-direction: column;
                 background-color: rgba(10, 10, 10, 0.98);
@@ -1109,7 +1134,6 @@
                 padding: 30px 0;
             }
 
-            /* Slide menu in when active */
             .desktop-nav.active {
                 left: 0;
             }
@@ -1119,12 +1143,10 @@
                 gap: 25px;
             }
 
-            /* Show Hamburger Icon */
             .hamburger {
                 display: block;
             }
 
-            /* Hamburger Animation to "X" */
             .hamburger.active .bar:nth-child(2) {
                 opacity: 0;
             }
@@ -1137,40 +1159,62 @@
                 transform: translateY(-8px) rotate(-45deg);
             }
 
-            /* 3. Hero & Typography Adjustments */
+            /* 3. HERO & TYPOGRAPHY FIXES */
             #hero {
                 padding-top: 80px;
                 padding-bottom: 80px;
                 min-height: 80vh;
             }
 
+            /* SHRINK GLITCH TEXT MASSIVELY FOR MOBILE */
             .glitch {
-                font-size: 2.2rem;
+                font-size: 1.8rem; /* Much smaller to save space */
+                line-height: 1.2;
+                margin-bottom: 10px;
             }
             
             .sub-headline {
-                font-size: 1rem;
+                font-size: 0.9rem;
             }
 
-            /* 4. Layout Stacking */
+            /* 4. COMPACT CARD LAYOUTS (Saving Space) */
             .grid-3, .grid-2, .philosophy-grid, .gallery-grid {
-                grid-template-columns: 1fr;
+                grid-template-columns: 1fr; /* Single column stack */
             }
 
             .section-title {
-                font-size: 2.2rem;
+                font-size: 2rem;
+                margin-bottom: 30px;
             }
 
+            /* COMPACT CARDS: Reduced padding from 50px to 20px */
             .tilt-card, .contact-card, .philosophy-card {
-                padding: 30px 20px;
+                padding-top: 20px;
+                padding-bottom: 20px;
+                padding-left: 20px;
+                padding-right: 20px;
+                margin-bottom: 15px;
                 transform: none !important; /* Disable Tilt on Mobile */
             }
 
-            .gallery-item {
-                height: 350px;
+            /* Smaller internal headings */
+            .tilt-card h3, .philosophy-card h4 {
+                font-size: 1.2rem;
+                margin-bottom: 10px;
             }
 
-            /* 5. Disable Mouse-Specific Features */
+            .tilt-card p, .philosophy-card p {
+                font-size: 0.9rem;
+                padding-left: 0; /* Remove excess padding */
+            }
+
+            /* 5. GALLERY COMPACTNESS */
+            /* Force Gallery Items to be shorter on mobile to save scroll space */
+            .gallery-item {
+                height: 250px; 
+            }
+
+            /* 6. DISABLE MOUSE FEATURES */
             #cursor {
                 display: none !important;
             }
@@ -1337,67 +1381,42 @@
         <div class="container">
             <h2 class="section-title">Data Bank</h2>
             <div class="faq-grid">
-                
                 <div class="faq-item">
                     <div class="faq-question">
                         <span>// ARE YOU CURRENTLY HIRING?</span>
                         <span class="faq-toggle">+</span>
                     </div>
                     <div class="faq-answer">
-                        <p>We are always looking for visionary talent. While specific roles open periodically, you can use the "Apply Now" button to submit your portfolio to our database for future consideration.</p>
+                        <p>We are always looking for visionary talent. While specific roles open periodically, you can use the "Apply Now" button to submit your portfolio.</p>
                     </div>
                 </div>
-
                 <div class="faq-item">
                     <div class="faq-question">
-                        <span>// IS FALLING BOXES FREE TO PLAY?</span>
+                        <span>// IS FALLING BOXES FREE?</span>
                         <span class="faq-toggle">+</span>
                     </div>
                     <div class="faq-answer">
-                        <p>Yes. Falling Boxes is currently free-to-play via web browsers and mobile devices. We believe in accessible gaming for everyone during our early development phase.</p>
+                        <p>Yes. Falling Boxes is currently free-to-play via web browsers and mobile devices. We believe in accessible gaming for everyone.</p>
                     </div>
                 </div>
-
                 <div class="faq-item">
                     <div class="faq-question">
-                        <span>// WILL FALLING BOXES COME TO IOS?</span>
+                        <span>// WILL IT COME TO IOS?</span>
                         <span class="faq-toggle">+</span>
                     </div>
                     <div class="faq-answer">
-                        <p>We are currently optimizing for Android and WebGL. An iOS build is in our roadmap for Q4 2026, pending Apple Store verification.</p>
+                        <p>We are currently optimizing for Android and WebGL. An iOS build is in our roadmap for Q4 2026.</p>
                     </div>
                 </div>
-
                 <div class="faq-item">
                     <div class="faq-question">
                         <span>// HOW DO I REPORT BUGS?</span>
                         <span class="faq-toggle">+</span>
                     </div>
                     <div class="faq-answer">
-                        <p>Signal us directly via email at contact@solankivisions.com. Please include your device model and OS version for faster debugging.</p>
+                        <p>Signal us directly via email at contact@solankivisions.com. Please include your device model and OS version.</p>
                     </div>
                 </div>
-
-                <div class="faq-item">
-                    <div class="faq-question">
-                        <span>// ARE YOU OPEN TO PUBLISHER DEALS?</span>
-                        <span class="faq-toggle">+</span>
-                    </div>
-                    <div class="faq-answer">
-                        <p>We are currently self-published but open to strategic partnerships that align with our creative vision.</p>
-                    </div>
-                </div>
-
-                <div class="faq-item">
-                    <div class="faq-question">
-                        <span>// WHAT IS THE 'SOLANKI VISION'?</span>
-                        <span class="faq-toggle">+</span>
-                    </div>
-                    <div class="faq-answer">
-                        <p>Our vision is to uplift the Indie Game culture in India by creating digital experiences with genuine social impact and technical excellence.</p>
-                    </div>
-                </div>
-
             </div>
         </div>
     </section>
