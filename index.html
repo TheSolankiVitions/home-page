@@ -21,9 +21,20 @@
 
     <style>
         /* =========================================
-           0. CUSTOM CYBER CURSOR & LOADING
+           0. NEURAL BACKGROUND, CURSOR & LOADING
            ========================================= */
         
+        /* The Canvas for the Neural Network Background */
+        #neuralCanvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1; /* Puts it BEHIND everything else */
+            background-color: #0a0a0a; /* Base dark color */
+        }
+
         /* Hide default cursor */
         * {
             cursor: none;
@@ -121,9 +132,9 @@
            ========================================= */
         :root {
             /* Core Theme Colors */
-            --bg-color: #0a0a0a;
-            --card-bg: #111111;
-            --card-hover: #161616;
+            --bg-color: transparent; /* Changed to transparent so Canvas shows */
+            --card-bg: rgba(17, 17, 17, 0.8); /* Semi-transparent for effect */
+            --card-hover: rgba(22, 22, 22, 0.9);
             
             /* Neon Palette */
             --cyan: #00f3ff;
@@ -399,32 +410,11 @@
             align-items: center;
             justify-content: center;
             text-align: center;
-            background: radial-gradient(circle at center, #1a1a1a 0%, #0a0a0a 80%);
+            /* Gradient made transparent so particles show */
+            background: radial-gradient(circle at center, rgba(26,26,26,0.8) 0%, rgba(10,10,10,0.95) 80%);
             padding-top: 80px;
             position: relative;
             overflow: hidden;
-        }
-
-        /* Animated Grid Background Effect */
-        #hero::before {
-            content: '';
-            position: absolute;
-            width: 200%;
-            height: 200%;
-            background-image: 
-                linear-gradient(rgba(0, 243, 255, 0.03) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(0, 243, 255, 0.03) 1px, transparent 1px);
-            background-size: 50px 50px;
-            top: -50%;
-            left: -50%;
-            transform: perspective(500px) rotateX(60deg);
-            z-index: 0;
-            animation: gridMove 20s linear infinite;
-        }
-
-        @keyframes gridMove {
-            0% { transform: perspective(500px) rotateX(60deg) translateY(0); }
-            100% { transform: perspective(500px) rotateX(60deg) translateY(50px); }
         }
 
         .hero-content {
@@ -442,7 +432,6 @@
             display: inline-block;
         }
 
-        /* Duplicate text layers for glitch effect */
         .glitch::before,
         .glitch::after {
             content: attr(data-text);
@@ -451,10 +440,10 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: #0a0a0a; /* Matches bg color to hide main text behind */
+            background: transparent; /* Needs to be transparent for canvas */
+            text-shadow: 2px 0 #0a0a0a; /* Outline effect */
         }
 
-        /* Red Layer */
         .glitch::before {
             left: 2px;
             text-shadow: -1px 0 #ff00c1;
@@ -462,7 +451,6 @@
             animation: glitch-anim-1 5s infinite linear alternate-reverse;
         }
 
-        /* Cyan Layer */
         .glitch::after {
             left: -2px;
             text-shadow: -1px 0 #00fff9;
@@ -470,52 +458,20 @@
             animation: glitch-anim-2 5s infinite linear alternate-reverse;
         }
 
-        /* Glitch Animation Keyframes */
         @keyframes glitch-anim-1 {
             0% { clip: rect(20px, 9999px, 80px, 0); transform: skew(0.5deg); }
             5% { clip: rect(60px, 9999px, 10px, 0); transform: skew(0.5deg); }
             10% { clip: rect(10px, 9999px, 90px, 0); transform: skew(0.5deg); }
             15% { clip: rect(80px, 9999px, 20px, 0); transform: skew(0.5deg); }
             20% { clip: rect(10px, 9999px, 40px, 0); transform: skew(0.5deg); }
-            25% { clip: rect(50px, 9999px, 80px, 0); transform: skew(0.5deg); }
-            30% { clip: rect(10px, 9999px, 50px, 0); transform: skew(0.5deg); }
-            35% { clip: rect(70px, 9999px, 30px, 0); transform: skew(0.5deg); }
-            40% { clip: rect(30px, 9999px, 20px, 0); transform: skew(0.5deg); }
-            45% { clip: rect(60px, 9999px, 90px, 0); transform: skew(0.5deg); }
             50% { clip: rect(10px, 9999px, 50px, 0); transform: skew(0.5deg); }
-            55% { clip: rect(90px, 9999px, 10px, 0); transform: skew(0.5deg); }
-            60% { clip: rect(20px, 9999px, 60px, 0); transform: skew(0.5deg); }
-            65% { clip: rect(50px, 9999px, 40px, 0); transform: skew(0.5deg); }
-            70% { clip: rect(10px, 9999px, 80px, 0); transform: skew(0.5deg); }
-            75% { clip: rect(80px, 9999px, 10px, 0); transform: skew(0.5deg); }
-            80% { clip: rect(30px, 9999px, 90px, 0); transform: skew(0.5deg); }
-            85% { clip: rect(60px, 9999px, 20px, 0); transform: skew(0.5deg); }
-            90% { clip: rect(10px, 9999px, 60px, 0); transform: skew(0.5deg); }
-            95% { clip: rect(70px, 9999px, 30px, 0); transform: skew(0.5deg); }
             100% { clip: rect(40px, 9999px, 80px, 0); transform: skew(0.5deg); }
         }
 
         @keyframes glitch-anim-2 {
             0% { clip: rect(60px, 9999px, 20px, 0); transform: skew(0.5deg); }
             5% { clip: rect(10px, 9999px, 70px, 0); transform: skew(0.5deg); }
-            10% { clip: rect(90px, 9999px, 30px, 0); transform: skew(0.5deg); }
-            15% { clip: rect(20px, 9999px, 60px, 0); transform: skew(0.5deg); }
-            20% { clip: rect(50px, 9999px, 90px, 0); transform: skew(0.5deg); }
-            25% { clip: rect(10px, 9999px, 40px, 0); transform: skew(0.5deg); }
-            30% { clip: rect(70px, 9999px, 20px, 0); transform: skew(0.5deg); }
-            35% { clip: rect(30px, 9999px, 80px, 0); transform: skew(0.5deg); }
-            40% { clip: rect(80px, 9999px, 10px, 0); transform: skew(0.5deg); }
-            45% { clip: rect(40px, 9999px, 50px, 0); transform: skew(0.5deg); }
             50% { clip: rect(20px, 9999px, 90px, 0); transform: skew(0.5deg); }
-            55% { clip: rect(60px, 9999px, 30px, 0); transform: skew(0.5deg); }
-            60% { clip: rect(10px, 9999px, 70px, 0); transform: skew(0.5deg); }
-            65% { clip: rect(90px, 9999px, 20px, 0); transform: skew(0.5deg); }
-            70% { clip: rect(30px, 9999px, 60px, 0); transform: skew(0.5deg); }
-            75% { clip: rect(70px, 9999px, 10px, 0); transform: skew(0.5deg); }
-            80% { clip: rect(10px, 9999px, 80px, 0); transform: skew(0.5deg); }
-            85% { clip: rect(50px, 9999px, 40px, 0); transform: skew(0.5deg); }
-            90% { clip: rect(20px, 9999px, 90px, 0); transform: skew(0.5deg); }
-            95% { clip: rect(80px, 9999px, 20px, 0); transform: skew(0.5deg); }
             100% { clip: rect(10px, 9999px, 60px, 0); transform: skew(0.5deg); }
         }
 
@@ -551,6 +507,7 @@
             position: relative;
             overflow: hidden;
             border-radius: 4px;
+            backdrop-filter: blur(5px); /* Blurs the particles behind */
         }
 
         .card::before {
@@ -594,13 +551,14 @@
         }
 
         .mission-intro {
-            background: linear-gradient(90deg, #111 0%, #0e0e0e 100%);
+            background: linear-gradient(90deg, rgba(17,17,17,0.9) 0%, rgba(14,14,14,0.9) 100%);
             border-left: 5px solid var(--yellow);
             padding: 50px;
             margin-bottom: 70px;
             border-radius: 0 6px 6px 0;
             box-shadow: 0 10px 30px rgba(0,0,0,0.3);
             position: relative;
+            backdrop-filter: blur(5px);
         }
 
         .mission-intro p {
@@ -622,6 +580,7 @@
             position: relative;
             transition: 0.3s;
             border-radius: 4px;
+            backdrop-filter: blur(3px);
         }
 
         .philosophy-card:hover {
@@ -639,13 +598,10 @@
             gap: 10px;
         }
 
-        /* Unique accents for philosophy cards */
         .p-card-1 { border-top: 4px solid var(--cyan); }
         .p-card-1 h4 { color: var(--cyan); }
-        
         .p-card-2 { border-top: 4px solid var(--green); }
         .p-card-2 h4 { color: var(--green); }
-        
         .p-card-3 { border-top: 4px solid var(--purple); }
         .p-card-3 h4 { color: var(--purple); }
 
@@ -661,7 +617,7 @@
            ========================================= */
         #games {
             padding: var(--section-padding) 0;
-            background: linear-gradient(180deg, var(--bg-color), #0f0f0f);
+            background: linear-gradient(180deg, rgba(10,10,10,0.8), #0f0f0f);
         }
 
         .split-screen {
@@ -673,6 +629,7 @@
             background: rgba(57, 255, 20, 0.02);
             position: relative;
             border-radius: 8px;
+            backdrop-filter: blur(5px);
         }
 
         .split-screen::after {
@@ -755,7 +712,7 @@
            ========================================= */
         #gallery {
             padding: var(--section-padding) 0;
-            background-color: #0b0b0b;
+            background-color: rgba(11,11,11,0.9);
         }
 
         .gallery-grid {
@@ -835,7 +792,7 @@
            ========================================= */
         #databank {
             padding: var(--section-padding) 0;
-            background: #080808;
+            background: rgba(8,8,8,0.9);
             border-top: 1px solid rgba(255, 255, 255, 0.05);
         }
 
@@ -895,19 +852,10 @@
             font-size: 1rem;
         }
 
-        /* Active State logic */
-        .faq-item.active .faq-answer {
-            max-height: 300px; /* Expands to show text */
-        }
-
-        .faq-item.active .faq-toggle {
-            transform: rotate(45deg);
-            color: var(--cyan);
-        }
-
-        .faq-item.active {
-            box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
-        }
+        /* Active State */
+        .faq-item.active .faq-answer { max-height: 300px; }
+        .faq-item.active .faq-toggle { transform: rotate(45deg); color: var(--cyan); }
+        .faq-item.active { box-shadow: 0 0 20px rgba(0, 0, 0, 0.5); }
 
         /* =========================================
            10. CONTACT SECTION
@@ -930,6 +878,7 @@
             border: 1px solid rgba(255, 255, 255, 0.05);
             transition: 0.3s;
             border-radius: 6px;
+            backdrop-filter: blur(5px);
         }
 
         .contact-card:hover {
@@ -1031,7 +980,7 @@
         }
 
         /* =========================================
-           12. MOBILE ADAPTIVE & RESPONSIVE DESIGN
+           12. MOBILE ADAPTIVE
            ========================================= */
         @media (max-width: 992px) {
             .hero-content h1 { font-size: 3.5rem; }
@@ -1055,23 +1004,21 @@
 
             .section-title { font-size: 2.2rem; margin-bottom: 3rem; width: 100%; }
             .card, .contact-card, .philosophy-card { padding: 30px 20px; }
-            
             .mission-intro { padding: 30px; border-left-width: 3px; }
-            
-            .gallery-grid { grid-template-columns: 1fr; } /* Stack assets on mobile */
+            .gallery-grid { grid-template-columns: 1fr; } 
             .gallery-item { height: 350px; }
-            
             .social-buttons { flex-direction: column; gap: 15px; }
             .social-btn { width: 100%; text-align: center; }
 
-            /* IMPORTANT: On mobile, we MUST hide the custom cursor 
-               and restore the default touch behavior */
+            /* Hide Custom Cursor on Mobile */
             #cursor { display: none; }
             * { cursor: auto !important; }
         }
     </style>
 </head>
 <body>
+
+    <canvas id="neuralCanvas"></canvas>
 
     <div id="cursor"></div>
 
@@ -1217,7 +1164,6 @@
         <div class="container">
             <h2 class="section-title">Data Bank</h2>
             <div class="faq-grid">
-                
                 <div class="faq-item">
                     <div class="faq-question">
                         <span>// ARE YOU CURRENTLY HIRING?</span>
@@ -1227,7 +1173,6 @@
                         <p>We are always looking for visionary talent. While specific roles open periodically, you can use the "Apply Now" button to submit your portfolio to our database for future consideration.</p>
                     </div>
                 </div>
-
                 <div class="faq-item">
                     <div class="faq-question">
                         <span>// IS FALLING BOXES FREE TO PLAY?</span>
@@ -1237,7 +1182,6 @@
                         <p>Yes. Falling Boxes is currently free-to-play via web browsers and mobile devices. We believe in accessible gaming for everyone during our early development phase.</p>
                     </div>
                 </div>
-
                 <div class="faq-item">
                     <div class="faq-question">
                         <span>// WHAT ENGINE DO YOU USE?</span>
@@ -1247,7 +1191,6 @@
                         <p>Our primary development engine is Unity 3D, supported by Blender for 3D modeling and animation. We also integrate various AI tools to optimize our workflow and asset generation.</p>
                     </div>
                 </div>
-
                 <div class="faq-item">
                     <div class="faq-question">
                         <span>// DO YOU ACCEPT INTERNS?</span>
@@ -1257,7 +1200,6 @@
                         <p>Yes, we are committed to education and mentorship in Rajasthan. We offer internship programs for driven individuals looking to learn real-world game production pipelines.</p>
                     </div>
                 </div>
-
             </div>
         </div>
     </section>
@@ -1297,7 +1239,125 @@
     <button id="backToTop" title="Return to Top">↑</button>
 
     <script>
-        // 1. CUSTOM CURSOR LOGIC
+        // ----------------------------------------
+        // 1. NEURAL NETWORK PARTICLE SYSTEM
+        // ----------------------------------------
+        const canvas = document.getElementById('neuralCanvas');
+        const ctx = canvas.getContext('2d');
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+
+        let particlesArray;
+        const mouse = {
+            x: null,
+            y: null,
+            radius: 150 // Radius for connection lines
+        }
+
+        // Update mouse position for particle connection
+        window.addEventListener('mousemove', function(event) {
+            mouse.x = event.x;
+            mouse.y = event.y;
+        });
+
+        class Particle {
+            constructor(x, y, directionX, directionY, size, color) {
+                this.x = x;
+                this.y = y;
+                this.directionX = directionX;
+                this.directionY = directionY;
+                this.size = size;
+                this.color = color;
+            }
+            draw() {
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2, false);
+                ctx.fillStyle = 'rgba(255, 255, 255, 0.5)';
+                ctx.fill();
+            }
+            update() {
+                // Bounce off edges
+                if (this.x > canvas.width || this.x < 0) {
+                    this.directionX = -this.directionX;
+                }
+                if (this.y > canvas.height || this.y < 0) {
+                    this.directionY = -this.directionY;
+                }
+                this.x += this.directionX;
+                this.y += this.directionY;
+                this.draw();
+            }
+        }
+
+        function init() {
+            particlesArray = [];
+            let numberOfParticles = (canvas.height * canvas.width) / 9000; // Density
+            for (let i = 0; i < numberOfParticles; i++) {
+                let size = (Math.random() * 2) + 1;
+                let x = (Math.random() * ((innerWidth - size * 2) - (size * 2)) + size * 2);
+                let y = (Math.random() * ((innerHeight - size * 2) - (size * 2)) + size * 2);
+                let directionX = (Math.random() * 0.5) - 0.25;
+                let directionY = (Math.random() * 0.5) - 0.25;
+                let color = '#ffffff';
+                particlesArray.push(new Particle(x, y, directionX, directionY, size, color));
+            }
+        }
+
+        function connect() {
+            let opacityValue = 1;
+            for (let a = 0; a < particlesArray.length; a++) {
+                for (let b = a; b < particlesArray.length; b++) {
+                    let distance = ((particlesArray[a].x - particlesArray[b].x) * (particlesArray[a].x - particlesArray[b].x))
+                    + ((particlesArray[a].y - particlesArray[b].y) * (particlesArray[a].y - particlesArray[b].y));
+                    
+                    // Connect particles to each other
+                    if (distance < (canvas.width/7) * (canvas.height/7)) {
+                        opacityValue = 1 - (distance/20000);
+                        ctx.strokeStyle = 'rgba(255, 255, 255,' + opacityValue/10 + ')'; // Faint white lines
+                        ctx.lineWidth = 1;
+                        ctx.beginPath();
+                        ctx.moveTo(particlesArray[a].x, particlesArray[a].y);
+                        ctx.lineTo(particlesArray[b].x, particlesArray[b].y);
+                        ctx.stroke();
+                    }
+                }
+                // Connect particles to MOUSE
+                let dx = mouse.x - particlesArray[a].x;
+                let dy = mouse.y - particlesArray[a].y;
+                let distanceMouse = Math.sqrt(dx*dx + dy*dy);
+                if (distanceMouse < 150) {
+                    ctx.strokeStyle = 'rgba(0, 243, 255, 0.4)'; // Cyan lines to mouse
+                    ctx.lineWidth = 1;
+                    ctx.beginPath();
+                    ctx.moveTo(particlesArray[a].x, particlesArray[a].y);
+                    ctx.lineTo(mouse.x, mouse.y);
+                    ctx.stroke();
+                }
+            }
+        }
+
+        function animate() {
+            requestAnimationFrame(animate);
+            ctx.clearRect(0, 0, innerWidth, innerHeight);
+            for (let i = 0; i < particlesArray.length; i++) {
+                particlesArray[i].update();
+            }
+            connect();
+        }
+
+        window.addEventListener('resize', function() {
+            canvas.width = innerWidth;
+            canvas.height = innerHeight;
+            mouse.radius = ((canvas.height/80) * (canvas.height/80));
+            init();
+        });
+
+        init();
+        animate();
+
+        // ----------------------------------------
+        // 2. CUSTOM CURSOR LOGIC (HTML ELEMENT)
+        // ----------------------------------------
         const cursor = document.getElementById('cursor');
         const body = document.body;
 
@@ -1306,26 +1366,24 @@
             cursor.style.top = e.clientY + 'px';
         });
 
-        // Add hover effect for links and buttons
         const interactables = document.querySelectorAll('a, button, .faq-item, .gallery-item');
         interactables.forEach(el => {
             el.addEventListener('mouseenter', () => body.classList.add('hovering'));
             el.addEventListener('mouseleave', () => body.classList.remove('hovering'));
         });
 
-        // 2. LOADING SCREEN LOGIC
+        // ----------------------------------------
+        // 3. UTILITY LOGIC (Loader, BackToTop, FAQ)
+        // ----------------------------------------
         window.addEventListener('load', function() {
             const loader = document.getElementById('loader');
-            // Ensure loader stays for at least 1.5 seconds for dramatic effect
             setTimeout(() => {
                 loader.style.opacity = '0';
                 loader.style.visibility = 'hidden';
             }, 1500); 
         });
 
-        // 3. BACK TO TOP BUTTON LOGIC
         const backBtn = document.getElementById('backToTop');
-        
         window.addEventListener('scroll', () => {
             if (window.scrollY > 500) {
                 backBtn.style.display = 'flex';
@@ -1335,22 +1393,15 @@
         });
 
         backBtn.addEventListener('click', () => {
-            window.scrollTo({
-                top: 0,
-                behavior: 'smooth'
-            });
+            window.scrollTo({ top: 0, behavior: 'smooth' });
         });
 
-        // 4. FAQ ACCORDION LOGIC
         const faqItems = document.querySelectorAll('.faq-item');
-
         faqItems.forEach(item => {
             item.addEventListener('click', () => {
-                // Optional: Close other open items
                 faqItems.forEach(otherItem => {
                     if (otherItem !== item) otherItem.classList.remove('active');
                 });
-                // Toggle current item
                 item.classList.toggle('active');
             });
         });
